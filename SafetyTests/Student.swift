@@ -10,13 +10,13 @@ import SwiftUI
 struct Student:Decodable{
     var AngleGrinderTest = -1
     var AngleGrinderVideo = false
-    let Class: String
+    var Class: String
     var LatheTest = -1
     var LatheVideo = false
     var MillTest = -1
     var MillVideo = false
     var WelderTest = -1
     var WelderVideo = false
-    let name: String
-    let Teacher = false
+    var name: String
+    var Teacher = false
 }

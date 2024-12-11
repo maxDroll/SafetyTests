@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    @AppStorage("name") var name = ""
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text(name)
         }
         .padding()
         CreateAccountView()
