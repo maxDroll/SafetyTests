@@ -20,7 +20,11 @@ struct CreateAccountView: View {
         VStack {
             TextField("Enter Name", text: $enterName)
             TextField("Enter Class", text:$enterClass)
+            Button(action: {
+            }) {
+    }
         }
+        
     }
     func CreateAccount(){
         let database = Firestore.firestore()
