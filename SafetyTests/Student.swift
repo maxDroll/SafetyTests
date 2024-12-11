@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Student{
+struct Student:Decodable{
     var AngleGrinderTest = -1
     var AngleGrinderVideo = false
     let Class: String
@@ -18,4 +18,5 @@ struct Student{
     var WelderTest = -1
     var WelderVideo = false
     let name: String
+    let Teacher = false
 }
