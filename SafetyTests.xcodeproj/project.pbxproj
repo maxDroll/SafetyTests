@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		21943D5A2D07513900F38AC3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 21943D592D07513900F38AC3 /* FirebaseFirestore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		211C58A22CFF74A300987F7B /* SafetyTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SafetyTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21943D5A2D07513900F38AC3 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = SafetyTests;
 			packageProductDependencies = (
+				21943D592D07513900F38AC3 /* FirebaseFirestore */,
 			);
 			productName = SafetyTests;
 			productReference = 211C58A22CFF74A300987F7B /* SafetyTests.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = 211C58992CFF74A300987F7B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				21943D582D07513900F38AC3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 211C58A32CFF74A300987F7B /* Products */;
 			projectDirPath = "";
@@ -322,6 +331,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		21943D582D07513900F38AC3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		21943D592D07513900F38AC3 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 21943D582D07513900F38AC3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 211C589A2CFF74A300987F7B /* Project object */;
 }
