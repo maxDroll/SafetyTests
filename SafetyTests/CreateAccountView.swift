@@ -15,6 +15,10 @@ struct CreateAccountView: View {
     var body: some View {
         VStack {
             TextField("Enter Name", text: $enterName)
+            Button(action: {
+            }) {
+    }
         }
+        
     }
 }
