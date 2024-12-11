@@ -7,14 +7,25 @@
 
 import SwiftUICore
 import SwiftUI
+import Firebase
+import FirebaseFirestore
 
 
 struct CreateAccountView: View {
+    @FirestoreQuery(collectionPath: "Students") var students:[Student]
     @State private var enterName: String = ""
+    @State var enterClass: String = ""
     
     var body: some View {
         VStack {
             TextField("Enter Name", text: $enterName)
+            TextField("Enter Class", text:$enterClass)
         }
+    }
+    func CreateAccount(){
+        let database = Firestore.firestore()
+        database.collection("Students").document(enterName).setData(["name":enterName,"Teacher":false,"AngleGrinderTest":-1,"AngleGrinderVideo":false,"Class":enterClass,"LatheTest":-1,"LatheVideo":false,"MillTest":-1,"MillVideo":false,"WelderTest":-1,"WelderVideo":false])
+        enterName = ""
+        enterClass = ""
     }
 }
