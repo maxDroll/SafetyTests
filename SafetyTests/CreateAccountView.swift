@@ -17,14 +17,20 @@ struct CreateAccountView: View {
     @State var enterClass: String = ""
     
     var body: some View {
-        VStack {
-            TextField("Enter Name", text: $enterName)
-            TextField("Enter Class", text:$enterClass)
-            Button(action: {
-            }) {
-    }
+        NavigationStack{
+            VStack {
+                TextField("Enter Name", text: $enterName)
+                TextField("Enter Class", text:$enterClass)
+                NavigationLink(destination: ContentView()) {
+                    Button {
+                        CreateAccount()
+                    } label: {
+                        Text("Create Account")
+                    }
+
+                }
+            }
         }
-        
     }
     func CreateAccount(){
         let database = Firestore.firestore()
