@@ -18,7 +18,7 @@ struct MachineSelectionView: View {
     @State var student: Student = Student(Class: "Bill", name: "till")
     var body: some View {
         HStack{
-            VStack {
+            VStack(spacing:100) {
                 ForEach(machines, id: \.self) { machine in
                     Button(action: {
                         selectedMachine = machine
@@ -26,9 +26,11 @@ struct MachineSelectionView: View {
                         ZStack{
                             Text(machine)
                                 .foregroundStyle(.black)
+                                .frame(width:300,alignment: .leading)
+                                .font(.system(size: 50))
                             if selectedMachine == machine{
                                 Rectangle()
-                                    .frame(width: 100, height: 100)
+                                    .frame(width: 300, height: 100)
                                     .foregroundStyle(.blue)
                                     .opacity(0.3)
                             }
@@ -36,6 +38,7 @@ struct MachineSelectionView: View {
                     }
                 }
             }
+            .padding()
             StudentMachineView(student:$student, selectedMachine: $selectedMachine)
             
         }
