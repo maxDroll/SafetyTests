@@ -9,7 +9,8 @@ import SwiftUI
 
 struct MachineSelectionView: View {
     let machines = ["Lathe ", "Mille", "Welder", "Angle Grinder"]
-    
+    @AppStorage("name") var name = ""
+    @AppStorage("class") var Class = ""
     @State private var selectedMachine: String? = nil
     
     var body: some View {
@@ -19,7 +20,15 @@ struct MachineSelectionView: View {
                 Button(action: {
                     selectedMachine = machine
                 }) {
-            
+                    ZStack{
+                        Text(machine)
+                        if selectedMachine == machine{
+                            Rectangle()
+                                .frame(width: 100, height: 100)
+                                .foregroundStyle(.blue)
+                                .opacity(0.3)
+                        }
+                    }
                 }
             }
             

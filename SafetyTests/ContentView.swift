@@ -9,15 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     @AppStorage("name") var name = ""
+    @AppStorage("class") var Class = ""
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text(name)
+        if name != ""{
+            MachineSelectionView()
+        }else{
+            CreateAccountView()
         }
-        .padding()
-        CreateAccountView()
     }
 }
 
