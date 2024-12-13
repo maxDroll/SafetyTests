@@ -12,7 +12,9 @@ struct ContentView: View {
     @AppStorage("class") var Class = ""
     var body: some View {
         if name != ""{
-            MachineSelectionView()
+            HStack{
+                MachineSelectionView()
+            }
         }else{
             CreateAccountView()
         }
