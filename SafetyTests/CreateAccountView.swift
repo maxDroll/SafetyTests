@@ -21,14 +21,15 @@ struct CreateAccountView: View {
     var body: some View {
         NavigationStack{
             VStack {
-                TextField("Enter Name", text: $enterName)
+                TextField("Enter Name", text: $enterName) 
                 TextField("Enter Class", text:$enterClass)
                 NavigationLink(destination: ContentView()) {
                     Button {
                         CreateAccount()
                     } label: {
                         Text("Create Account")
-                    }
+                    } .foregroundColor(.white)  
+                        .background(Color.blue)
 
                 }
             }
