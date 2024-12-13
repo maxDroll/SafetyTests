@@ -22,7 +22,7 @@ struct MachineSelectionView: View {
                 ForEach(machines, id: \.self) { machine in
                     Button(action: {
                         selectedMachine = machine
-                    }) {
+                    })  {
                         ZStack{
                             Text(machine)
                                 .foregroundStyle(.black)
