@@ -18,25 +18,28 @@ struct MachineSelectionView: View {
     @State var student: Student = Student(Class: "Bill", name: "till")
     var body: some View {
         HStack{
-            VStack{
+            VStack(spacing:0){
+                Rectangle()
+                    .frame(width:600,height:3,alignment: .leading)
                 ForEach(machines, id: \.self) { machine in
                     Button(action: {
                         selectedMachine = machine
-                    })  {
+                    },label:  {
                         ZStack{
                             Text(machine)
                                 .foregroundStyle(.black)
-                                .frame(width:500,height:200,alignment: .leading)
+                                .frame(width:530,height:203,alignment: .leading)
                                 .font(.system(size: 50))
                             if selectedMachine == machine{
                                 Rectangle()
-                                    .frame(width: 500, height: 200)
+                                    .frame(width: 575, height: 203)
                                     .foregroundStyle(.blue)
                                     .opacity(0.3)
                             }
                         }
-                    }
-                    Divider()
+                    })
+                    Rectangle()
+                        .frame(width:575,height:3,alignment: .leading)
                 }
             }
             .padding()
@@ -52,7 +55,7 @@ struct MachineSelectionView: View {
 //            name = ""
 //            Class = ""
         }
-        .frame(width: 500, height: 1000)
+        .frame(width: 530, height: 795)
         
     }
 }
