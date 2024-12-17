@@ -10,7 +10,7 @@ import Firebase
 import FirebaseFirestore
 
 struct MachineSelectionView: View {
-    let machines = ["Lathe ", "Mille", "Welder", "Angle Grinder"]
+    let machines = ["Lathe", "Mille", "Welder", "Angle Grinder"]
     @AppStorage("name") var name = ""
     @AppStorage("class") var Class = ""
     @State private var selectedMachine: String = ""
