@@ -15,6 +15,9 @@ struct StudentMachineView: View {
     @Binding var student: Student
     @Binding var selectedMachine: String
     var body: some View {
-        Text(selectedMachine)
+        VStack{
+            Text(selectedMachine)
+        }
+        .frame(width: 600, height: 1000)
     }
 }
