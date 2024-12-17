@@ -17,10 +17,10 @@ struct MachineSelectionView: View {
     @FirestoreQuery(collectionPath: "Students") var students:[Student]
     @State var student: Student = Student(Class: "Bill", name: "till")
     var body: some View {
-        HStack{
+        HStack(spacing:0){
             VStack(spacing:0){
                 Rectangle()
-                    .frame(width:600,height:3,alignment: .leading)
+                    .frame(width:500,height:3,alignment: .leading)
                 ForEach(machines, id: \.self) { machine in
                     Button(action: {
                         selectedMachine = machine
@@ -28,23 +28,26 @@ struct MachineSelectionView: View {
                         ZStack{
                             Text(machine)
                                 .foregroundStyle(.black)
-                                .frame(width:530,height:203,alignment: .leading)
+                                .frame(width:460,height:203,alignment: .leading)
                                 .font(.system(size: 50))
                             if selectedMachine == machine{
                                 Rectangle()
-                                    .frame(width: 575, height: 203)
+                                    .frame(width: 500, height: 203)
                                     .foregroundStyle(.blue)
                                     .opacity(0.3)
                             }
                         }
                     })
                     Rectangle()
-                        .frame(width:575,height:3,alignment: .leading)
+                        .frame(width:500,height:3,alignment: .leading)
                 }
             }
+            .offset(x:-40)
             .padding()
+            Rectangle()
+                .frame(width: 3, height: 900)
+                .offset(x: -57)
             StudentMachineView(student:$student, selectedMachine: $selectedMachine)
-            
         }
         .onAppear {
             for eachStudent in students{
@@ -55,7 +58,7 @@ struct MachineSelectionView: View {
 //            name = ""
 //            Class = ""
         }
-        .frame(width: 530, height: 795)
+        .frame(width: 540, height: 795)
         
     }
 }
