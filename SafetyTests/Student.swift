@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct Student:Decodable{
-    var AngleGrinderTest = -1
-    var AngleGrinderVideo = false
+    var AngleGrinderTest: Int
+    var AngleGrinderVideo: Bool
     var Class: String
-    var LatheTest = -1
-    var LatheVideo = false
-    var MillTest = -1
-    var MillVideo = false
-    var WelderTest = -1
-    var WelderVideo = false
+    var LatheTest: Int
+    var LatheVideo: Bool
+    var MillTest: Int
+    var MillVideo: Bool
+    var WelderTest: Int
+    var WelderVideo: Bool
     var name: String
-    var Teacher = false
+    var Teacher: Bool
 }

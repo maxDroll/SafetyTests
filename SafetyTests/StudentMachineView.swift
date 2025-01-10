@@ -15,6 +15,7 @@ struct StudentMachineView: View {
     @State var machines:[machineInfo] = []
     @Binding var student: Student
     @Binding var selectedMachine: String
+    @Binding var shower: Int
     var body: some View {
         VStack{
             Text(selectedMachine)
@@ -23,6 +24,7 @@ struct StudentMachineView: View {
                 if machine.name == selectedMachine{
                     Text("\(machine.video)")
                     Text("\(machine.test)")
+                    Text("\(shower)")
                 }
             }
         }
