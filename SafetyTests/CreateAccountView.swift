@@ -20,18 +20,42 @@ struct CreateAccountView: View {
     
     var body: some View {
         NavigationStack{
-            VStack {
-                TextField("Enter Name", text: $enterName) 
-                TextField("Enter Class", text:$enterClass)
-                NavigationLink(destination: ContentView()) {
-                    Button {
-                        CreateAccount()
-                    } label: {
-                        Text("Create Account")
-                    } .foregroundColor(.white)  
-                        .background(Color.blue)
-
+            Text("Hi! Welcome to")
+                .font(.system(size:50))
+            Text("Hersey Safety Tests")
+                .font(.system(size:50))
+            ZStack{
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: 400, height: 300)
+                    .foregroundStyle(Color(uiColor: .lightGray))
+                VStack {
+                    Text("Create an Account")
+                        .offset(x:-50)
+                        .font(.title)
+                    Spacer()
+                    TextField("Enter Name", text: $enterName)
+                        .frame(width: 300)
+                        .textFieldStyle(.roundedBorder)
+                        .font(.title)
+                    TextField("Enter Class", text:$enterClass)
+                        .frame(width: 300)
+                        .textFieldStyle(.roundedBorder)
+                        .font(.title)
+                    Spacer()
+                    NavigationLink(destination: ContentView()) {
+                        Button {
+                            CreateAccount()
+                        } label: {
+                            Text("Create Account")
+                                .foregroundColor(.white)
+                                .background(Color.blue)
+                                .font(.title)
+                                .offset(x:50)
+                        }
+                        
+                    }
                 }
+                .frame(height: 250)
             }
         }
     }
