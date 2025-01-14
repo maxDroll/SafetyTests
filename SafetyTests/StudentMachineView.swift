@@ -19,6 +19,11 @@ struct StudentMachineView: View {
         VStack{
             Text(selectedMachine)
             Text("Some Safety Advice")
+            VStack(alignment: .leading) {
+                            Text("Bullet Points")
+                            Text("Bullet Points")
+                            
+                        }
             ForEach(machines, id:\.self) { machine in
                 if machine.name == selectedMachine{
                     Text("\(machine.video)")
@@ -28,7 +33,9 @@ struct StudentMachineView: View {
         }
         .frame(width: 600, height: 1000)
         .onAppear{
-            machines = [machineInfo(name: "Mille", test: student.settingStudent().MillTest, video: student.settingStudent().MillVideo),machineInfo(name: "Angle Grinder", test: student.settingStudent().AngleGrinderTest, video: student.settingStudent().AngleGrinderVideo),machineInfo(name: "Lathe", test: student.settingStudent().LatheTest, video: student.settingStudent().LatheVideo),machineInfo(name: "Welder", test: student.settingStudent().WelderTest, video: student.settingStudent().WelderVideo)]
+            machines = [machineInfo(name: "Mille", test: student.settingStudent().MillTest, video: student.settingStudent().MillVideo),machineInfo(name: "Angle Grinder", test: student.settingStudent().AngleGrinderTest, video: student.settingStudent().AngleGrinderVideo),machineInfo(name: "Lathe", test: student.settingStudent().LatheTest, video: student.settingStudent().LatheVideo),machineInfo(name: "Welder", test: student.settingStudent().WelderTest, video: student.settingStudent().WelderVideo), ]
+            
+            Text("bullet points")
         }
     }
     struct machineInfo: Hashable{
