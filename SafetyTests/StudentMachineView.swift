@@ -15,6 +15,7 @@ struct StudentMachineView: View {
     @State var machines:[machineInfo] = []
     @StateObject var student: StudentMachineBrain = StudentMachineBrain()
     @Binding var selectedMachine: String
+    @State private var hasWatchedVideo: Bool = false
     var body: some View {
         VStack{
             Text(selectedMachine)
@@ -28,9 +29,20 @@ struct StudentMachineView: View {
                 if machine.name == selectedMachine{
                     Text("\(machine.video)")
                     Text("\(machine.test)")
+                    
+                    Text("You have \(hasWatchedVideo ? "watched" : "not watched") the video.")
+                                            
                 }
             }
+            Button(action: {
+                            hasWatchedVideo.toggle()
+                        }) {
+                            Text(hasWatchedVideo ? "Mark as Not Watched" : "Mark as Watched")
+                                
+                        }
+                        .padding(.bottom)
         }
+        
         .frame(width: 600, height: 1000)
         .onAppear{
             machines = [machineInfo(name: "Mille", test: student.settingStudent().MillTest, video: student.settingStudent().MillVideo),machineInfo(name: "Angle Grinder", test: student.settingStudent().AngleGrinderTest, video: student.settingStudent().AngleGrinderVideo),machineInfo(name: "Lathe", test: student.settingStudent().LatheTest, video: student.settingStudent().LatheVideo),machineInfo(name: "Welder", test: student.settingStudent().WelderTest, video: student.settingStudent().WelderVideo), ]
