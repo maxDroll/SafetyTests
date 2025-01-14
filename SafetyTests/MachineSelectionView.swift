@@ -11,7 +11,6 @@ import FirebaseFirestore
 
 struct MachineSelectionView: View {
     let machines = ["Lathe", "Mille", "Welder", "Angle Grinder"]
-    @State var shower = -1
     @AppStorage("name") var name = ""
     @AppStorage("class") var Class = ""
     @State private var selectedMachine: String = ""
@@ -48,20 +47,19 @@ struct MachineSelectionView: View {
             Rectangle()
                 .frame(width: 3, height: 900)
                 .offset(x: -57)
-            StudentMachineView(student:$student, selectedMachine: $selectedMachine, shower: $shower)
+            StudentMachineView(selectedMachine: $selectedMachine)
         }
         .onAppear {
-            for eachStudent in students{
-                if name == eachStudent.name && Class == eachStudent.Class{
-                    student = eachStudent
-                    shower = 10
-                }
-            }
-            if shower == -1{
-                shower = 5
-            }
-            name = ""
-            Class = ""
+//            print(students.count)
+//            for eachStudent in students{
+//                if name == eachStudent.name && Class == eachStudent.Class{
+//                    student = eachStudent
+//                }
+//                print("max")
+//            }
+            
+//            name = ""
+//            Class = ""
         }
         .frame(width: 540, height: 795)
         
