@@ -13,7 +13,7 @@ struct StudentMachineView: View {
     @AppStorage("name") var name = ""
     @AppStorage("class") var Class = ""
     @State var machines:[machineInfo] = []
-    @StateObject var student: StudentMachineBrain = StudentMachineBrain()
+    @EnvironmentObject var student: StudentMachineBrain
     @Binding var selectedMachine: String
     var body: some View {
         VStack{
@@ -28,7 +28,7 @@ struct StudentMachineView: View {
         }
         .frame(width: 600, height: 1000)
         .onAppear{
-            machines = [machineInfo(name: "Mille", test: student.settingStudent().MillTest, video: student.settingStudent().MillVideo),machineInfo(name: "Angle Grinder", test: student.settingStudent().AngleGrinderTest, video: student.settingStudent().AngleGrinderVideo),machineInfo(name: "Lathe", test: student.settingStudent().LatheTest, video: student.settingStudent().LatheVideo),machineInfo(name: "Welder", test: student.settingStudent().WelderTest, video: student.settingStudent().WelderVideo)]
+            machines = [machineInfo(name: "Mille", test: student.student.MillTest, video: student.student.MillVideo),machineInfo(name: "Angle Grinder", test: student.student.AngleGrinderTest, video: student.student.AngleGrinderVideo),machineInfo(name: "Lathe", test: student.student.LatheTest, video: student.student.LatheVideo),machineInfo(name: "Welder", test: student.student.WelderTest, video: student.student.WelderVideo)]
         }
     }
     struct machineInfo: Hashable{
