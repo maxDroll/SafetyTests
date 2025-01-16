@@ -9,9 +9,11 @@ import SwiftUICore
 import SwiftUI
 import Firebase
 import FirebaseFirestore
-
+import SwiftData
 
 struct CreateAccountView: View {
+    @Environment(\.modelContext) var context
+    @Query var student:[StudentData] = []
     @FirestoreQuery(collectionPath: "Students") var students:[Student]
     @AppStorage("name") var name = ""
     @AppStorage("class") var Class = ""
@@ -62,6 +64,9 @@ struct CreateAccountView: View {
     func CreateAccount(){
         let database = Firestore.firestore()
         database.collection("Students").document(enterName).setData(["name":enterName,"Teacher":false,"AngleGrinderTest":-1,"AngleGrinderVideo":false,"Class":enterClass,"LatheTest":-1,"LatheVideo":false,"MillTest":-1,"MillVideo":false,"WelderTest":-1,"WelderVideo":false])
+        
+        let student = StudentData(AngleGrinderTest: -1, AngleGrinderVideo: false, Class: enterClass, LatheTest: -1, LatheVideo: false, MillTest: -1, MillVideo: false, WelderTest: -1, WelderVideo: false, name: enterName, Teacher: false)
+        context.insert(student)
         name = enterName
         Class = enterClass
         enterName = ""

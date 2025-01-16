@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import FirebaseFirestore
+import SwiftData
 
 struct StudentMachineView: View {
     @AppStorage("name") var name = ""
@@ -16,6 +17,8 @@ struct StudentMachineView: View {
     @EnvironmentObject var student: StudentMachineBrain
     @Binding var selectedMachine: String
     @State private var hasWatchedVideo: Bool = false
+    @Environment(\.modelContext) var context
+    @Query var stud:[StudentData] = []
     var body: some View {
         VStack{
             Text(selectedMachine)
@@ -30,7 +33,7 @@ struct StudentMachineView: View {
                     Text("\(machine.video)")
                     Text("\(machine.test)")
                     
-                    Text("You have \(hasWatchedVideo ? "watched" : "not watched") the video.")
+                    Text("You have \(machine.video ? "watched" : "not watched") the video.")
                                             
                 }
             }
@@ -38,7 +41,13 @@ struct StudentMachineView: View {
                 quizView()
             }
             Button(action: {
-                            hasWatchedVideo.toggle()
+                switch selectedMachine{
+                case "Mille":stud[0].MillVideo.toggle()
+                case "Angle Grinder":stud[0].AngleGrinderVideo.toggle()
+                case "Lathe": stud[0].LatheVideo.toggle()
+                default: stud[0].WelderVideo.toggle()
+                    machineStatusUpdate()
+                }
                         }) {
                             Text(hasWatchedVideo ? "Mark as Not Watched" : "Mark as Watched")
                                 
@@ -49,12 +58,15 @@ struct StudentMachineView: View {
         
         .frame(width: 600, height: 1000)
         .onAppear{
-            machines = [machineInfo(name: "Mille", test: student.student.MillTest, video: student.student.MillVideo),machineInfo(name: "Angle Grinder", test: student.student.AngleGrinderTest, video: student.student.AngleGrinderVideo),machineInfo(name: "Lathe", test: student.student.LatheTest, video: student.student.LatheVideo),machineInfo(name: "Welder", test: student.student.WelderTest, video: student.student.WelderVideo)]
+            machineStatusUpdate()
         }
     }
     struct machineInfo: Hashable{
         var name: String
         var test: Int
         var video: Bool
+    }
+    func machineStatusUpdate(){
+        machines = [machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo),machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo),machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo),machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo)]
     }
 }
