@@ -25,11 +25,6 @@ struct Student: Decodable{
 
 
 
-
-
-
-
-
 @Model
 
 class StudentData{
