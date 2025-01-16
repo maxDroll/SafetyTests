@@ -34,6 +34,9 @@ struct StudentMachineView: View {
                                             
                 }
             }
+            NavigationLink("Go to Quiz View") {
+                quizView()
+            }
             Button(action: {
                             hasWatchedVideo.toggle()
                         }) {
@@ -41,6 +44,7 @@ struct StudentMachineView: View {
                                 
                         }
                         .padding(.bottom)
+            
         }
         
         .frame(width: 600, height: 1000)
