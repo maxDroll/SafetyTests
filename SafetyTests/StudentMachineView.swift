@@ -14,11 +14,11 @@ struct StudentMachineView: View {
     @AppStorage("name") var name = ""
     @AppStorage("class") var Class = ""
     @State var machines:[machineInfo] = []
-    @EnvironmentObject var student: StudentMachineBrain
     @Binding var selectedMachine: String
     @State private var hasWatchedVideo: Bool = false
     @Environment(\.modelContext) var context
     @Query var stud:[StudentData] = []
+    @FirestoreQuery(collectionPath: "Students") var students:[Student]
     var body: some View {
         VStack{
             Text(selectedMachine)
@@ -46,8 +46,8 @@ struct StudentMachineView: View {
                 case "Angle Grinder":stud[0].AngleGrinderVideo.toggle()
                 case "Lathe": stud[0].LatheVideo.toggle()
                 default: stud[0].WelderVideo.toggle()
-                    machineStatusUpdate()
                 }
+                machineStatusUpdate()
                         }) {
                             Text(hasWatchedVideo ? "Mark as Not Watched" : "Mark as Watched")
                                 
@@ -68,5 +68,7 @@ struct StudentMachineView: View {
     }
     func machineStatusUpdate(){
         machines = [machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo),machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo),machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo),machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo)]
+        let database = Firestore.firestore()
+        database.collection("Students").document(stud[0].name).setData(["name":stud[0].name,"Teacher":stud[0].Teacher,"AngleGrinderTest":stud[0].AngleGrinderTest,"AngleGrinderVideo":stud[0].AngleGrinderVideo,"Class":stud[0].Class,"LatheTest":stud[0].LatheTest,"LatheVideo":stud[0].LatheVideo,"MillTest":stud[0].MillTest,"MillVideo":stud[0].MillVideo,"WelderTest":stud[0].WelderTest,"WelderVideo":stud[0].WelderVideo])
     }
 }
