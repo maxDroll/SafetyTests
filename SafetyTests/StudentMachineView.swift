@@ -53,6 +53,9 @@ struct StudentMachineView: View {
                                 
                         }
                         .padding(.bottom)
+            NavigationLink("Watch Video") {
+                VideoView()
+            }
             
         }
         
