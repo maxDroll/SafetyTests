@@ -64,11 +64,6 @@ struct StudentMachineView: View {
             machineStatusUpdate()
         }
     }
-    struct machineInfo: Hashable{
-        var name: String
-        var test: Int
-        var video: Bool
-    }
     func machineStatusUpdate(){
         machines = [machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo),machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo),machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo),machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo)]
         let database = Firestore.firestore()
