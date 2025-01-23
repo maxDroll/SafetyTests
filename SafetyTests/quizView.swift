@@ -50,10 +50,7 @@ struct quizView: View {
                         currentQuestionIndex -= 1
                     }) {
                         Text("Previous")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                            
                     }
                 }
 
@@ -64,20 +61,14 @@ struct quizView: View {
                         currentQuestionIndex += 1
                     }) {
                         Text("Next")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                            
                     }
                 } else {
                     Button(action: {
                         showResults = true
                     }) {
                         Text("Submit")
-                            .padding()
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                            
                     }
                 }
             }
