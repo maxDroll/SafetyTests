@@ -9,6 +9,7 @@ import SwiftUI
 
 struct quizView: View {
     @State private var selectedAnswers: [Int?] = Array(repeating: nil, count: 5)
+    @State private var currentQuestionIndex: Int = 0
     @State private var showResults: Bool = false
 
     let questions = [
@@ -22,37 +23,76 @@ struct quizView: View {
     var body: some View {
         VStack(spacing: 15) {
             Text("Safety Quiz")
-            ForEach(0..<questions.count, id: \.self) { index in
-                VStack(alignment: .leading, spacing: 10) {
-                    Text(questions[index].0)
-                        .font(.headline)
+                .font(.title)
+                .bold()
 
-                    ForEach(0..<questions[index].1.count, id: \.self) { optionIndex in
-                        Button(action: {
-                            selectedAnswers[index] = optionIndex
-                        }) {
-                            HStack {
-                                Circle()
-                                    .fill(selectedAnswers[index] == optionIndex ? Color.blue : Color.gray)
-                                    .frame(width: 20, height: 20)
-                                Text(questions[index].1[optionIndex])
-                            }
+            VStack(alignment: .leading, spacing: 10) {
+                Text(questions[currentQuestionIndex].0)
+                    .font(.headline)
+
+                ForEach(0..<questions[currentQuestionIndex].1.count, id: \.self) { optionIndex in
+                    Button(action: {
+                        selectedAnswers[currentQuestionIndex] = optionIndex
+                    }) {
+                        HStack {
+                            Circle()
+                                .fill(selectedAnswers[currentQuestionIndex] == optionIndex ? Color.blue : Color.gray)
+                                .frame(width: 20, height: 20)
+                            Text(questions[currentQuestionIndex].1[optionIndex])
                         }
                     }
                 }
-                
             }
 
-            Button(action: {
-                showResults = true
-            }) {
-                Text("Submit")
+            HStack {
+                if currentQuestionIndex > 0 {
+                    Button(action: {
+                        currentQuestionIndex -= 1
+                    }) {
+                        Text("Previous")
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                }
+
+                Spacer()
+
+                if currentQuestionIndex < questions.count - 1 {
+                    Button(action: {
+                        currentQuestionIndex += 1
+                    }) {
+                        Text("Next")
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                } else {
+                    Button(action: {
+                        showResults = true
+                    }) {
+                        Text("Submit")
+                            .padding()
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                }
             }
-            
+            .padding(.top)
+
+//            if showResults {
+//                Text("Results: \(selectedAnswers.compactMap { $0 }).count correct answers")
+//                    .padding()
+//                    .font(.title2)
+//            }
         }
-        
+        .padding()
     }
 }
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         quizView()
