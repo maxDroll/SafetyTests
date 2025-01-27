@@ -11,14 +11,14 @@ import SwiftData
 
 @main
 struct SafetyTestsApp: App {
-    @StateObject var studentMachineBrain = StudentMachineBrain()
+//    @StateObject var studentMachineBrain = StudentMachineBrain()
     init(){
         FirebaseApp.configure()
     }
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(studentMachineBrain)
+//                .environmentObject(studentMachineBrain)
                 .modelContainer(for: StudentData.self)
                 
         }

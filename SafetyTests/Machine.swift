@@ -11,4 +11,5 @@ struct machineInfo: Hashable{
     var name: String
     var test: Int
     var video: Bool
+    var videoID: String
 }

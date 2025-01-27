@@ -8,8 +8,14 @@
 import SwiftUI
 
 struct VideoView: View {
+    @Binding var selectedMachine: String
     var body: some View {
-        YoutubeVideo(videoID: "PKQPey6L42M")
+        switch selectedMachine{
+        case "Mille":YoutubeVideo(videoID: "Rm1FXXOH6KU")
+        case "Angle Grinder": YoutubeVideo(videoID: "etBFbmNevWs")
+        case "Lathe": YoutubeVideo(videoID: "PKQPey6L42M")
+        default: YoutubeVideo(videoID: "IK_Cn5lxggA")
+        }
     }
 }
 
