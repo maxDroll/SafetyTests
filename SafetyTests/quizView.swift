@@ -15,14 +15,43 @@ struct quizView: View {
     @Environment(\.modelContext) var context
     @Query var student:[StudentData] = []
     
-    let questions = [
-        ("x", ["a", "b", "c", "d"],2),
-        ("x", ["a", "b", "c", "d"],2),
-        ("x", ["a", "b", "c", "d"],0),
-        ("x", ["a", "b", "c", "d"],1),
-        ("x", ["a", "b", "c", "d"],3)
+    let quizzes: [String: [(String, [String], Int)]] = [
+        "Mille": [
+            ("x", ["a", "b", "b", "d"], 2),
+            ("x", ["a", "b", "c", "d"], 1),
+            ("x", ["a", "b", "c", "d"], 3),
+            ("x", ["a", "b", "c", "d"], 0),
+            ("x", ["a", "b", "c", "d"], 0)
+        ],
+        "Angle Grinder": [
+            ("x", ["a", "b", "b", "d"], 0),
+            ("x", ["a", "b", "c", "d"], 3),
+            ("x", ["a", "b", "c", "d"], 4),
+            ("x", ["a", "b", "c", "d"], 1),
+            ("x", ["a", "b", "c", "d"], 0)
+        ],
+        "Lathe": [
+            ("x", ["a", "b", "b", "d"], 0),
+            ("x", ["a", "b", "c", "d"], 2),
+            ("x", ["a", "b", "c", "d"], 2),
+            ("x", ["a", "b", "c", "d"], 1),
+            ("x", ["a", "b", "c", "d"], 2)
+        ],
+        "Welder": [
+            ("x", ["a", "b", "b", "d"], 2),
+            ("x", ["a", "b", "c", "d"], 2),
+            ("x", ["a", "b", "c", "d"], 1),
+            ("x", ["a", "b", "c", "d"], 0),
+            ("x", ["a", "b", "c", "d"], 2)
+        ]
     ]
+
     //    student[0].AngleGrinderTest
+    
+    @Binding var selectedMachine: String
+    var questions: [(String, [String], Int)] {
+            quizzes[selectedMachine] ?? []
+        }
     
     func calculateScore() -> Int {
         var score = 0
@@ -43,10 +72,11 @@ struct quizView: View {
                 .bold()
             
             VStack(alignment: .leading, spacing: 10) {
-                Text(questions[currentQuestionIndex].0)
-                    .font(.headline)
+                let questions: [(String, [String], Int)] = quizzes[selectedMachine] ?? []
+
                 
-                ForEach(0..<questions[currentQuestionIndex].1.count, id: \.self) { optionIndex in
+                ForEach(questions[currentQuestionIndex].1.indices, id: \.self) { optionIndex in
+
                     Button(action: {
                         selectedAnswers[currentQuestionIndex] = optionIndex
                     }) {
@@ -97,6 +127,7 @@ struct quizView: View {
                         .font(.title2)
                         .padding()
                     
+                    
                     ForEach(0..<questions.count, id: \.self) { index in
                         HStack {
                             Text("Q\(index + 1): \(questions[index].0)")
@@ -120,9 +151,13 @@ struct quizView: View {
         }
     }
     
-    struct ContentView_Previews: PreviewProvider {
-        static var previews: some View {
-            quizView()
+    struct ParentView: View {
+        @State private var selectedMachine: String = "Mille"
+        
+        var body: some View {
+            quizView(selectedMachine: $selectedMachine)
         }
     }
+
+
 }
