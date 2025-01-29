@@ -21,46 +21,52 @@ struct StudentMachineView: View {
     @FirestoreQuery(collectionPath: "Students") var students:[Student]
     var body: some View {
         VStack{
-            Text(selectedMachine)
-            Text("Some Safety Advice")
-            VStack(alignment: .leading) {
-                            Text("Bullet Points")
-                            Text("Bullet Points")
-                            
-                        }
-            ForEach(machines, id:\.self) { machine in
-                if machine.name == selectedMachine{
-                    Text("\(machine.video)")
-                    Text("\(machine.test)")
-                    Text("You have \(machine.video ? "watched" : "not watched") the video.")
+            if selectedMachine == ""{
+                Text("Select a Machine")
+                    .font(.largeTitle)
+            }
+            else{
+                Text(selectedMachine)
+                Text("Some Safety Advice")
+                VStack(alignment: .leading) {
+                    Text("Bullet Points")
+                    Text("Bullet Points")
+                    
                 }
-            }
-            NavigationLink("Go to Quiz View") {
-                quizView(machines: $machines, selectedMachine: $selectedMachine)
-            }
-            NavigationLink("Go to Video View"){
-                VideoView(selectedMachine: $selectedMachine)
-            }
-            Button(action: {
-                switch selectedMachine{
-                case "Mille":stud[0].MillVideo.toggle()
-                case "Angle Grinder":stud[0].AngleGrinderVideo.toggle()
-                case "Lathe": stud[0].LatheVideo.toggle()
-                default: stud[0].WelderVideo.toggle()
+                ForEach(machines, id:\.self) { machine in
+                    if machine.name == selectedMachine{
+                        Text("\(machine.video)")
+                        Text("\(machine.test)")
+                        Text("You have \(machine.video ? "watched" : "not watched") the video.")
+                    }
                 }
-                machineStatusUpdate()
-                        }) {
-                            Text(hasWatchedVideo ? "Mark as Not Watched" : "Mark as Watched")
-                                
-                        }
-                        .padding(.bottom)
-            
+                NavigationLink("Go to Quiz View") {
+                    quizView(machines: $machines, selectedMachine: $selectedMachine)
+                }
+                NavigationLink("Go to Video View"){
+                    VideoView(selectedMachine: $selectedMachine)
+                }
+                Button(action: {
+                    switch selectedMachine{
+                    case "Mille":stud[0].MillVideo.toggle()
+                    case "Angle Grinder":stud[0].AngleGrinderVideo.toggle()
+                    case "Lathe": stud[0].LatheVideo.toggle()
+                    default: stud[0].WelderVideo.toggle()
+                    }
+                    machineStatusUpdate()
+                }) {
+                    Text(hasWatchedVideo ? "Mark as Not Watched" : "Mark as Watched")
+                    
+                }
+                .padding(.bottom)
+                
+            }
         }
-        
         .frame(width: 600, height: 1000)
         .onAppear{
             machineStatusUpdate()
         }
+            
     }
     func machineStatusUpdate(){
         machines = [machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo, videoID: "PKQPey6L42M")]
