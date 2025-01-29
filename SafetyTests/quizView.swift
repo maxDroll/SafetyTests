@@ -7,14 +7,17 @@
 
 import SwiftUI
 import SwiftData
+import Firebase
+import FirebaseFirestore
 
 struct quizView: View {
     @State private var selectedAnswers: [Int?] = Array(repeating: nil, count: 5)
     @State private var currentQuestionIndex: Int = 0
     @State private var showResults: Bool = false
     @Environment(\.modelContext) var context
-    @Query var student:[StudentData] = []
-    
+    @Query var stud:[StudentData] = []
+    @FirestoreQuery(collectionPath: "Students") var students:[Student]
+    @Binding var machines: [machineInfo]
     let quizzes: [String: [(String, [String], Int)]] = [
         "Mille": [
             ("x", ["a", "b", "b", "d"], 2),
@@ -112,6 +115,13 @@ struct quizView: View {
                 } else {
                     Button(action: {
                         showResults = true
+                        switch selectedMachine{
+                        case "Mille":stud[0].MillTest = calculateScore()
+                        case "Angle Grinder":stud[0].AngleGrinderTest = calculateScore()
+                        case "Lathe": stud[0].LatheTest = calculateScore()
+                        default: stud[0].WelderTest = calculateScore()
+                        }
+                        machineStatusUpdate()
                     }) {
                         Text("Submit")
                         
@@ -151,13 +161,17 @@ struct quizView: View {
         }
     }
     
-    struct ParentView: View {
-        @State private var selectedMachine: String = "Mille"
-        
-        var body: some View {
-            quizView(selectedMachine: $selectedMachine)
-        }
+//    struct ParentView: View {
+//        @State private var selectedMachine: String = "Mille"
+//        
+//        var body: some View {
+//            quizView(machines: $machines, selectedMachine: $selectedMachine)
+//        }
+//    }
+    func machineStatusUpdate(){
+        machines = [machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo, videoID: "PKQPey6L42M")]
+        let database = Firestore.firestore()
+        database.collection("Students").document(stud[0].name).setData(["name":stud[0].name,"Teacher":stud[0].Teacher,"AngleGrinderTest":stud[0].AngleGrinderTest,"AngleGrinderVideo":stud[0].AngleGrinderVideo,"Class":stud[0].Class,"LatheTest":stud[0].LatheTest,"LatheVideo":stud[0].LatheVideo,"MillTest":stud[0].MillTest,"MillVideo":stud[0].MillVideo,"WelderTest":stud[0].WelderTest,"WelderVideo":stud[0].WelderVideo])
     }
-
 
 }

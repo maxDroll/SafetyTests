@@ -36,7 +36,7 @@ struct StudentMachineView: View {
                 }
             }
             NavigationLink("Go to Quiz View") {
-                quizView(selectedMachine: $selectedMachine)
+                quizView(machines: $machines, selectedMachine: $selectedMachine)
             }
             NavigationLink("Go to Video View"){
                 VideoView(selectedMachine: $selectedMachine)
