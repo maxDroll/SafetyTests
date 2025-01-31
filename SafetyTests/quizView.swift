@@ -161,13 +161,6 @@ struct quizView: View {
         }
     }
     
-//    struct ParentView: View {
-//        @State private var selectedMachine: String = "Mille"
-//        
-//        var body: some View {
-//            quizView(machines: $machines, selectedMachine: $selectedMachine)
-//        }
-//    }
     func machineStatusUpdate(){
         machines = [machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo, videoID: "PKQPey6L42M")]
         let database = Firestore.firestore()
