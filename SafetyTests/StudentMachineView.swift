@@ -27,38 +27,50 @@ struct StudentMachineView: View {
             }
             else{
                 Text(selectedMachine)
-                Text("Some Safety Advice")
+                    .font(.largeTitle)
+                Text("Some general Safety Advice")
+                    .padding()
                 VStack(alignment: .leading) {
-                    Text("Bullet Points")
-                    Text("Bullet Points")
+                    Text("Bullet Points about safety gear")
+                    Text("Bullet Points about safety gear")
                     
                 }
-                ForEach(machines, id:\.self) { machine in
-                    if machine.name == selectedMachine{
-                        Text("\(machine.video)")
-                        Text("\(machine.test)")
-                        Text("You have \(machine.video ? "watched" : "not watched") the video.")
+                .padding()
+                .padding()
+                HStack{
+                    VStack{
+                        NavigationLink {
+                            VideoView(selectedMachine: $selectedMachine)
+                        } label: {
+                            Text("Go to Video View")
+                                .frame(width: 250, height: 100)
+                                .background(.blue)
+                                .foregroundStyle(.white)
+                                .font(.title)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
+                        NavigationLink {
+                            quizView(machines: $machines, selectedMachine: $selectedMachine)
+                        } label: {
+                            Text("Go to Quiz View")
+                                .frame(width: 250, height: 100)
+                                .background(.blue)
+                                .foregroundStyle(.white)
+                                .font(.title)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
+                    }
+                    VStack{
+                        ForEach(machines, id:\.self) { machine in
+                            if machine.name == selectedMachine{
+                                Text("You have \(machine.video ? "watched" : "not watched") the video.")
+                                    .frame(width: 200, height: 100)
+                                Text("You have gotten a \(machine.test) on the test")
+                                    .frame(width: 200, height: 100)
+                            }
+                        }
                     }
                 }
-                NavigationLink("Go to Quiz View") {
-                    quizView(machines: $machines, selectedMachine: $selectedMachine)
-                }
-                NavigationLink("Go to Video View"){
-                    VideoView(selectedMachine: $selectedMachine)
-                }
-                Button(action: {
-                    switch selectedMachine{
-                    case "Mille":stud[0].MillVideo.toggle()
-                    case "Angle Grinder":stud[0].AngleGrinderVideo.toggle()
-                    case "Lathe": stud[0].LatheVideo.toggle()
-                    default: stud[0].WelderVideo.toggle()
-                    }
-                    machineStatusUpdate()
-                }) {
-                    Text(hasWatchedVideo ? "Mark as Not Watched" : "Mark as Watched")
-                    
-                }
-                .padding(.bottom)
                 
             }
         }

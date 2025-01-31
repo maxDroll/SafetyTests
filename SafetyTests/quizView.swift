@@ -20,32 +20,32 @@ struct quizView: View {
     @Binding var machines: [machineInfo]
     let quizzes: [String: [(String, [String], Int)]] = [
         "Mille": [
-            ("x", ["a", "b", "b", "d"], 2),
-            ("x", ["a", "b", "c", "d"], 1),
-            ("x", ["a", "b", "c", "d"], 3),
-            ("x", ["a", "b", "c", "d"], 0),
-            ("x", ["a", "b", "c", "d"], 0)
+            ("x", ["a", "b", "correct", "d"], 2),
+            ("x", ["a", "correct", "c", "d"], 1),
+            ("x", ["a", "b", "c", "correct"], 3),
+            ("x", ["correct", "b", "c", "d"], 0),
+            ("x", ["correct", "b", "c", "d"], 0)
         ],
         "Angle Grinder": [
-            ("x", ["a", "b", "b", "d"], 0),
-            ("x", ["a", "b", "c", "d"], 3),
-            ("x", ["a", "b", "c", "d"], 4),
-            ("x", ["a", "b", "c", "d"], 1),
-            ("x", ["a", "b", "c", "d"], 0)
+            ("x", ["correct", "b", "c", "d"], 0),
+            ("x", ["a", "b", "c", "correct"], 3),
+            ("x", ["a", "b", "c", "correct"], 3),
+            ("x", ["a", "correct", "c", "d"], 1),
+            ("x", ["correct", "b", "c", "d"], 0)
         ],
         "Lathe": [
-            ("x", ["a", "b", "b", "d"], 0),
-            ("x", ["a", "b", "c", "d"], 2),
-            ("x", ["a", "b", "c", "d"], 2),
-            ("x", ["a", "b", "c", "d"], 1),
-            ("x", ["a", "b", "c", "d"], 2)
+            ("x", ["correct", "b", "b", "d"], 0),
+            ("x", ["a", "b", "correct", "d"], 2),
+            ("x", ["a", "b", "correct", "d"], 2),
+            ("x", ["a", "correct", "c", "d"], 1),
+            ("x", ["a", "b", "correct", "d"], 2)
         ],
         "Welder": [
-            ("x", ["a", "b", "b", "d"], 2),
-            ("x", ["a", "b", "c", "d"], 2),
-            ("x", ["a", "b", "c", "d"], 1),
-            ("x", ["a", "b", "c", "d"], 0),
-            ("x", ["a", "b", "c", "d"], 2)
+            ("x", ["a", "b", "correct", "d"], 2),
+            ("x", ["a", "b", "correct", "d"], 2),
+            ("x", ["a", "correct", "c", "d"], 1),
+            ("x", ["correct", "b", "c", "d"], 0),
+            ("x", ["a", "b", "correct", "d"], 2)
         ]
     ]
 
