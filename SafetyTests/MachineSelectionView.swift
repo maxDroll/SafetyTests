@@ -20,60 +20,40 @@ struct MachineSelectionView: View {
     
     var body: some View {
         NavigationStack {
-//            VStack {
-//                NavigationLink(destination: quizView()) { {
-//                    Text("go to quizView")
-//                        
-//                }()
-//                        .navigationTitle("back")
-                    HStack(spacing:0){
-                        VStack(spacing:0){
-                            Rectangle()
-                                .frame(width:500,height:3,alignment: .leading)
-                            ForEach(machines, id: \.self) { machine in
-                                Button(action: {
-                                    selectedMachine = machine
-                                },label:  {
-                                    ZStack{
-                                        Text(machine)
-                                            .foregroundStyle(.black)
-                                            .frame(width:460,height:203,alignment: .leading)
-                                            .font(.system(size: 50))
-                                        if selectedMachine == machine{
-                                            Rectangle()
-                                                .frame(width: 500, height: 203)
-                                                .foregroundStyle(.blue)
-                                                .opacity(0.3)
-                                        }
-                                    }
-                                })
-                                Rectangle()
-                                    .frame(width:500,height:3,alignment: .leading)
+            HStack(spacing:0){
+                VStack(spacing:0){
+                    Rectangle()
+                        .frame(width:500,height:3,alignment: .leading)
+                    ForEach(machines, id: \.self) { machine in
+                        Button(action: {
+                            selectedMachine = machine
+                        },label:  {
+                            ZStack{
+                                Text(machine)
+                                    .foregroundStyle(.black)
+                                    .frame(width:460,height:203,alignment: .leading)
+                                    .font(.system(size: 50))
+                                if selectedMachine == machine{
+                                    Rectangle()
+                                        .frame(width: 500, height: 203)
+                                        .foregroundStyle(.blue)
+                                        .opacity(0.3)
+                                }
                             }
-                        }
-                        .offset(x:-40)
-                        .padding()
+                        })
                         Rectangle()
-                            .frame(width: 3, height: 900)
-                            .offset(x: -57)
-                        StudentMachineView(selectedMachine: $selectedMachine)
+                            .frame(width:500,height:3,alignment: .leading)
                     }
-                    .onAppear {
-                        //            print(students.count)
-                        //            for eachStudent in students{
-                        //                if name == eachStudent.name && Class == eachStudent.Class{
-                        //                    student = eachStudent
-                        //                }
-                        //                print("max")
-                        //            }
-                        
-                        //            name = ""
-                        //            Class = ""
-                    }
-                    .frame(width: 540, height: 795)
-                    
                 }
+                .offset(x:-40)
+                .padding()
+                Rectangle()
+                    .frame(width: 3, height: 900)
+                    .offset(x: -57)
+                StudentMachineView(selectedMachine: $selectedMachine)
             }
-//        }
+            .frame(width: 540, height: 795)
+            
+        }
     }
-//}
+}

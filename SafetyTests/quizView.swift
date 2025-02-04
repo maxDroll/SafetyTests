@@ -157,7 +157,6 @@ struct quizView: View {
                     }
                 }
             }
-//                .padding()
         }
     }
     
