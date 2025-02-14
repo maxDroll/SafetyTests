@@ -66,10 +66,10 @@ struct StudentMachineView: View {
                                 Text("You have \(machine.video ? "watched" : "not watched") the video.")
                                     .frame(width: 200, height: 100)
                                 if machine.test == -1{
-                                    Text("You have not taken the test")
+                                    Text("You have not taken the quiz")
                                         .frame(width: 200, height: 100)
                                 }else{
-                                    Text("You have gotten a \(machine.test) on the test")
+                                    Text("You have gotten a \(machine.test) on the quiz")
                                         .frame(width: 200, height: 100)
                                 }
                             }

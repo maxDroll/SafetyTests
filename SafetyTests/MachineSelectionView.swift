@@ -17,7 +17,6 @@ struct MachineSelectionView: View {
     @FirestoreQuery(collectionPath: "Students") var students:[Student]
     @State var student: Student = Student(AngleGrinderTest: -1, AngleGrinderVideo: false, Class: "Till", LatheTest: -1, LatheVideo: false, MillTest: -1, MillVideo: false, WelderTest: -1, WelderVideo: false, name: "Bill", Teacher: false)
     
-    
     var body: some View {
         NavigationStack {
             HStack(spacing:0){
@@ -27,6 +26,11 @@ struct MachineSelectionView: View {
                     ForEach(machines, id: \.self) { machine in
                         Button(action: {
                             selectedMachine = machine
+                            for StudentTemp in students{
+                                if name == StudentTemp.name && Class == StudentTemp.Class{
+                                    student = StudentTemp
+                                }
+                            }
                         },label:  {
                             ZStack{
                                 Text(machine)
