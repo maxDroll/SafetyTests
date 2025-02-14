@@ -28,74 +28,103 @@ struct StudentMachineView: View {
             else{
                 Text(selectedMachine)
                     .font(.largeTitle)
-                Text("Some general Safety Advice")
+                //                Text("Required PPE: Safety Glasses")
                     .padding()
                 VStack(alignment: .leading) {
-                    Text("Bullet Points about safety gear")
-                    Text("Bullet Points about safety gear")
-                    
-                }
-                .padding()
-                .padding()
-                HStack{
-                    VStack{
-                        NavigationLink {
-                            VideoView(selectedMachine: $selectedMachine)
-                        } label: {
-                            Text("Go to Video View")
-                                .frame(width: 250, height: 100)
-                                .background(.blue)
-                                .foregroundStyle(.white)
-                                .font(.title)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                        }
-                        NavigationLink {
-                            quizView(machines: $machines, selectedMachine: $selectedMachine)
-                        } label: {
-                            Text("Go to Quiz View")
-                                .frame(width: 250, height: 100)
-                                .background(.blue)
-                                .foregroundStyle(.white)
-                                .font(.title)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                        }
+                    if selectedMachine == "Mille" {
+                        Text("Required PPE: Safety Glasses")
+                        Text("Reminders: ")
+                        Text("Remove rings, watches, and bracelets")
+                        Text("Roll up long sleeves")
+                        Text("Tie back long hair")
                     }
-                    VStack{
-                        ForEach(machines, id:\.self) { machine in
-                            if machine.name == selectedMachine{
-                                Text("You have \(machine.video ? "watched" : "not watched") the video.")
-                                    .frame(width: 200, height: 100)
-                                if machine.test == -1{
-                                    Text("You have not taken the test")
+                    if selectedMachine == "Lathe" {
+                        Text("Required PPE: Safety Glasses")
+                        Text("Reminders: ")
+                        Text("Remove rings, watches, and bracelets")
+                        Text("Roll up long sleeves")
+                        Text("Tuck in or remove necklaces and hoodie strings")
+                        Text("Tie back long hair")
+                    }
+                    if selectedMachine == "Welder" {
+                        Text("Required PPE: Safety Glasses, Face Shield, Leather Gloves")
+                        Text("Reminders: ")
+                        Text("Check that your mask is functioning properly and is a minimum shade 10")
+                        Text("Remove any flammable materials from the surrounding area")
+                        Text("Always allow parts to cool before handling")
+                       
+                    }
+                    if selectedMachine == "Angle Grinder" {
+                        Text("Required PPE: Safety Glasses, Face Shield, Leather Gloves")
+                        Text("Ensure that your workpiece is properly secured")
+                        Text("Remove any flammable materials from the surrounding area")
+                        Text("Get a strong base and use two hands at all times")
+                    }
+                }
+                
+               
+                    
+                    HStack{
+                        VStack{
+                            NavigationLink {
+                                VideoView(selectedMachine: $selectedMachine)
+                            } label: {
+                                Text("Go to Video View")
+                                    .frame(width: 250, height: 100)
+                                    .background(.blue)
+                                    .foregroundStyle(.white)
+                                    .font(.title)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                            }
+                            NavigationLink {
+                                quizView(machines: $machines, selectedMachine: $selectedMachine)
+                            } label: {
+                                Text("Go to Quiz View")
+                                    .frame(width: 250, height: 100)
+                                    .background(.blue)
+                                    .foregroundStyle(.white)
+                                    .font(.title)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                            }
+                        }
+                        VStack{
+                            ForEach(machines, id:\.self) { machine in
+                                if machine.name == selectedMachine{
+                                    Text("You have \(machine.video ? "watched" : "not watched") the video.")
                                         .frame(width: 200, height: 100)
-                                }else{
-                                    Text("You have gotten a \(machine.test) on the test")
-                                        .frame(width: 200, height: 100)
+                                    if machine.test == -1{
+                                        Text("You have not taken the quiz")
+                                            .frame(width: 200, height: 100)
+                                    }else{
+                                        Text("You have gotten a \(machine.test) on the quiz")
+                                            .frame(width: 200, height: 100)
+                                    }
                                 }
                             }
                         }
                     }
+                    
                 }
-                
             }
-        }
-        .frame(width: 600, height: 1000)
-        .onAppear{
-            machineStatusUpdate()
-        }
+                .frame(width: 600, height: 1000)
+                .onAppear{
+                    machineStatusUpdate()
+                }
             
+        }
+        func machineStatusUpdate(){
+            //Reset Account
+            
+            //        name = ""
+            //        Class = ""
+            //        for element in stud{
+            //            context.delete(element)
+//
+            
+            machines = [machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo, videoID: "PKQPey6L42M")]
+            let database = Firestore.firestore()
+            database.collection("Students").document(stud[0].name).setData(["name":stud[0].name,"Teacher":stud[0].Teacher,"AngleGrinderTest":stud[0].AngleGrinderTest,"AngleGrinderVideo":stud[0].AngleGrinderVideo,"Class":stud[0].Class,"LatheTest":stud[0].LatheTest,"LatheVideo":stud[0].LatheVideo,"MillTest":stud[0].MillTest,"MillVideo":stud[0].MillVideo,"WelderTest":stud[0].WelderTest,"WelderVideo":stud[0].WelderVideo])
+            
+        }
     }
-    func machineStatusUpdate(){
-        //Reset Account
-        
-//        name = ""
-//        Class = ""
-//        for element in stud{
-//            context.delete(element)
-//        }
-        
-        machines = [machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo, videoID: "PKQPey6L42M")]
-        let database = Firestore.firestore()
-        database.collection("Students").document(stud[0].name).setData(["name":stud[0].name,"Teacher":stud[0].Teacher,"AngleGrinderTest":stud[0].AngleGrinderTest,"AngleGrinderVideo":stud[0].AngleGrinderVideo,"Class":stud[0].Class,"LatheTest":stud[0].LatheTest,"LatheVideo":stud[0].LatheVideo,"MillTest":stud[0].MillTest,"MillVideo":stud[0].MillVideo,"WelderTest":stud[0].WelderTest,"WelderVideo":stud[0].WelderVideo])
-    }
-}
+
