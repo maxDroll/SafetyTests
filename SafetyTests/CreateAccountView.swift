@@ -24,7 +24,7 @@ struct CreateAccountView: View {
         NavigationStack{
             Text("Hi! Welcome to")
                 .font(.system(size:50))
-            Text("Hersey Safety Tests")
+            Text("Hersey Safety XS")
                 .font(.system(size:50))
             ZStack{
                 RoundedRectangle(cornerRadius: 10)
