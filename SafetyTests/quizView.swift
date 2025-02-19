@@ -70,9 +70,10 @@ struct quizView: View {
     
     var body: some View {
         VStack(spacing: 15) {
-            Text("Safety Quiz")
-                .font(.title)
-                .bold()
+//            Text("Safety Quiz")
+          
+//                .font(.title)
+//                .bold()
             
             VStack(alignment: .leading, spacing: 10) {
                 let questions: [(String, [String], Int)] = quizzes[selectedMachine] ?? []
