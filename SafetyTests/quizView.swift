@@ -20,32 +20,32 @@ struct quizView: View {
     @Binding var machines: [machineInfo]
     let quizzes: [String: [(String, [String], Int)]] = [
         "Mille": [
-            ("x", ["a", "b", "correct", "d"], 2),
-            ("x", ["a", "correct", "c", "d"], 1),
-            ("x", ["a", "b", "c", "correct"], 3),
-            ("x", ["correct", "b", "c", "d"], 0),
-            ("x", ["correct", "b", "c", "d"], 0)
+            ("1", ["a", "b", "correct", "d"], 2),
+            ("2", ["a", "correct", "c", "d"], 1),
+            ("3", ["a", "b", "c", "correct"], 3),
+            ("4", ["correct", "b", "c", "d"], 0),
+            ("5", ["correct", "b", "c", "d"], 0)
         ],
         "Angle Grinder": [
-            ("x", ["correct", "b", "c", "d"], 0),
-            ("x", ["a", "b", "c", "correct"], 3),
-            ("x", ["a", "b", "c", "correct"], 3),
-            ("x", ["a", "correct", "c", "d"], 1),
-            ("x", ["correct", "b", "c", "d"], 0)
+            ("1", ["correct", "b", "c", "d"], 0),
+            ("2", ["a", "b", "c", "correct"], 3),
+            ("3", ["a", "b", "c", "correct"], 3),
+            ("4", ["a", "correct", "c", "d"], 1),
+            ("5", ["correct", "b", "c", "d"], 0)
         ],
         "Lathe": [
-            ("x", ["correct", "b", "b", "d"], 0),
-            ("x", ["a", "b", "correct", "d"], 2),
-            ("x", ["a", "b", "correct", "d"], 2),
-            ("x", ["a", "correct", "c", "d"], 1),
-            ("x", ["a", "b", "correct", "d"], 2)
+            ("1", ["correct", "b", "b", "d"], 0),
+            ("2", ["a", "b", "correct", "d"], 2),
+            ("3", ["a", "b", "correct", "d"], 2),
+            ("4", ["a", "correct", "c", "d"], 1),
+            ("5", ["a", "b", "correct", "d"], 2)
         ],
         "Welder": [
-            ("x", ["a", "b", "correct", "d"], 2),
-            ("x", ["a", "b", "correct", "d"], 2),
-            ("x", ["a", "correct", "c", "d"], 1),
-            ("x", ["correct", "b", "c", "d"], 0),
-            ("x", ["a", "b", "correct", "d"], 2)
+            ("1", ["a", "b", "correct", "d"], 2),
+            ("2", ["a", "b", "correct", "d"], 2),
+            ("3", ["a", "correct", "c", "d"], 1),
+            ("4", ["correct", "b", "c", "d"], 0),
+            ("5", ["a", "b", "correct", "d"], 2)
         ]
     ]
 
@@ -53,8 +53,9 @@ struct quizView: View {
     
     @Binding var selectedMachine: String
     var questions: [(String, [String], Int)] {
-            quizzes[selectedMachine] ?? []
-        }
+        quizzes[selectedMachine]?.shuffled() ?? []
+    }
+
     
     func calculateScore() -> Int {
         var score = 0
@@ -78,6 +79,11 @@ struct quizView: View {
             VStack(alignment: .leading, spacing: 10) {
                 let questions: [(String, [String], Int)] = quizzes[selectedMachine] ?? []
 
+                Text(questions[currentQuestionIndex].0)
+                    .font(.title2)
+                            .bold()
+                            .padding(.bottom, 20)
+
                 
                 ForEach(questions[currentQuestionIndex].1.indices, id: \.self) { optionIndex in
 
@@ -100,6 +106,11 @@ struct quizView: View {
                         currentQuestionIndex -= 1
                     }) {
                         Text("Previous")
+                            .frame(width: 135, height: 50)
+                            .background(.blue)
+                            .foregroundStyle(.white)
+                            .font(.title)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                         
                     }
                 }
@@ -111,11 +122,17 @@ struct quizView: View {
                         currentQuestionIndex += 1
                     }) {
                         Text("Next")
+                            .frame(width: 90, height: 50)
+                            .background(.blue)
+                            .foregroundStyle(.white)
+                            .font(.title)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                         
                     }
                 } else {
                     Button(action: {
                         showResults = true
+                        
                         switch selectedMachine{
                         case "Mille":stud[0].MillTest = calculateScore()
                         case "Angle Grinder":stud[0].AngleGrinderTest = calculateScore()
@@ -125,6 +142,11 @@ struct quizView: View {
                         machineStatusUpdate()
                     }) {
                         Text("Submit")
+                            .frame(width: 120, height: 50)
+                            .background(.blue)
+                            .foregroundStyle(.white)
+                            .font(.title)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                         
                     }
                 }
@@ -140,19 +162,24 @@ struct quizView: View {
                     
                     
                     ForEach(0..<questions.count, id: \.self) { index in
+                        let selectedIndex = selectedAnswers[index]
+                        let correctIndex = questions[index].2
                         HStack {
-                            Text("Q\(index + 1): \(questions[index].0)")
-                                .font(.headline)
+//                            Text("Q\(index + 1): \(questions[index].0)")
+//                                .font(.headline)
                             
                             Spacer()
                             
-                            if let selectedIndex = selectedAnswers[index] {
-                                Text("Your Answer: \(questions[index].1[selectedIndex])")
-                                    .foregroundColor(selectedIndex == questions[index].2 ? .green : .red)
+                            if selectedIndex == correctIndex {
+                                Text("Correct")
+                                    .foregroundColor(.green)
+                                    .bold()
+                            } else {
+                                Text("Incorrect")
+                                    .foregroundColor(.red)
+                                    .bold()
                             }
                             
-                            Text("Correct Answer: \(questions[index].1[questions[index].2])")
-                                .foregroundColor(.blue)
                         }
                         .padding(.vertical)
                     }
