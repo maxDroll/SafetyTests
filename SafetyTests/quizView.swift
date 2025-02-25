@@ -14,6 +14,7 @@ struct quizView: View {
     @State private var selectedAnswers: [Int?] = Array(repeating: nil, count: 5)
     @State private var currentQuestionIndex: Int = 0
     @State private var showResults: Bool = false
+    @State private var quizSubmitted: Bool = false
     @Environment(\.modelContext) var context
     @Query var stud:[StudentData] = []
     @FirestoreQuery(collectionPath: "Students") var students:[Student]
@@ -53,7 +54,7 @@ struct quizView: View {
     
     @Binding var selectedMachine: String
     var questions: [(String, [String], Int)] {
-        quizzes[selectedMachine]?.shuffled() ?? []
+        quizzes[selectedMachine] ?? []
     }
 
     
@@ -88,7 +89,10 @@ struct quizView: View {
                 ForEach(questions[currentQuestionIndex].1.indices, id: \.self) { optionIndex in
 
                     Button(action: {
-                        selectedAnswers[currentQuestionIndex] = optionIndex
+//                        selectedAnswers[currentQuestionIndex] = optionIndex
+                        if !quizSubmitted {
+                                selectedAnswers[currentQuestionIndex] = optionIndex
+                            }
                     }) {
                         HStack {
                             Circle()
@@ -96,12 +100,13 @@ struct quizView: View {
                                 .frame(width: 20, height: 20)
                             Text(questions[currentQuestionIndex].1[optionIndex])
                         }
+                        .disabled(quizSubmitted)
                     }
                 }
             }
             
             HStack {
-                if currentQuestionIndex > 0 {
+                if currentQuestionIndex > 0 && !quizSubmitted {
                     Button(action: {
                         currentQuestionIndex -= 1
                     }) {
@@ -117,7 +122,7 @@ struct quizView: View {
                 
                 Spacer()
                 
-                if currentQuestionIndex < questions.count - 1 {
+                if currentQuestionIndex < questions.count - 1 && !quizSubmitted {
                     Button(action: {
                         currentQuestionIndex += 1
                     }) {
@@ -132,7 +137,7 @@ struct quizView: View {
                 } else {
                     Button(action: {
                         showResults = true
-                        
+                        quizSubmitted = true
                         switch selectedMachine{
                         case "Mille":stud[0].MillTest = calculateScore()
                         case "Angle Grinder":stud[0].AngleGrinderTest = calculateScore()
@@ -149,6 +154,7 @@ struct quizView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                         
                     }
+                    .disabled(quizSubmitted)
                 }
             }
             .padding(.top)
