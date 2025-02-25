@@ -50,14 +50,11 @@ struct quizView: View {
         ]
     ]
 
-    //    student[0].AngleGrinderTest
-    
     @Binding var selectedMachine: String
     var questions: [(String, [String], Int)] {
         quizzes[selectedMachine] ?? []
     }
 
-    
     func calculateScore() -> Int {
         var score = 0
         
@@ -71,12 +68,7 @@ struct quizView: View {
     }
     
     var body: some View {
-        VStack(spacing: 15) {
-//            Text("Safety Quiz")
-          
-//                .font(.title)
-//                .bold()
-            
+        VStack(spacing: 20) {
             VStack(alignment: .leading, spacing: 10) {
                 let questions: [(String, [String], Int)] = quizzes[selectedMachine] ?? []
 
@@ -84,21 +76,26 @@ struct quizView: View {
                     .font(.title2)
                             .bold()
                             .padding(.bottom, 20)
-
+                            .fontWeight(.bold)
+                            .foregroundColor(.primary)
+                            .frame(maxWidth: .infinity, alignment: .center)
                 
-                ForEach(questions[currentQuestionIndex].1.indices, id: \.self) { optionIndex in
-
-                    Button(action: {
-//                        selectedAnswers[currentQuestionIndex] = optionIndex
-                        if !quizSubmitted {
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 15) {
+                    ForEach(questions[currentQuestionIndex].1.indices, id: \.self) { optionIndex in
+                        Button(action: {
+                            if !quizSubmitted {
                                 selectedAnswers[currentQuestionIndex] = optionIndex
                             }
-                    }) {
-                        HStack {
-                            Circle()
-                                .fill(selectedAnswers[currentQuestionIndex] == optionIndex ? Color.blue : Color.gray)
-                                .frame(width: 20, height: 20)
-                            Text(questions[currentQuestionIndex].1[optionIndex])
+                        }) {
+                            HStack {
+                                Circle()
+                                    .fill(selectedAnswers[currentQuestionIndex] == optionIndex ? Color.blue : Color.gray)
+                                    .frame(width: 20, height: 20)
+                                Text(questions[currentQuestionIndex].1[optionIndex])
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                            .padding(10)
+                            .background(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.gray))
                         }
                         .disabled(quizSubmitted)
                     }
@@ -116,7 +113,6 @@ struct quizView: View {
                             .foregroundStyle(.white)
                             .font(.title)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
-                        
                     }
                 }
                 
@@ -132,27 +128,26 @@ struct quizView: View {
                             .foregroundStyle(.white)
                             .font(.title)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
-                        
                     }
                 } else {
                     Button(action: {
                         showResults = true
                         quizSubmitted = true
-                        switch selectedMachine{
-                        case "Mille":stud[0].MillTest = calculateScore()
-                        case "Angle Grinder":stud[0].AngleGrinderTest = calculateScore()
+                        switch selectedMachine {
+                        case "Mille": stud[0].MillTest = calculateScore()
+                        case "Angle Grinder": stud[0].AngleGrinderTest = calculateScore()
                         case "Lathe": stud[0].LatheTest = calculateScore()
                         default: stud[0].WelderTest = calculateScore()
                         }
                         machineStatusUpdate()
                     }) {
                         Text("Submit")
-                            .frame(width: 120, height: 50)
-                            .background(.blue)
-                            .foregroundStyle(.white)
-                            .font(.title)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                        
+                            .frame(width: 180, height: 60)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .font(.title2)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .shadow(radius: 8)
                     }
                     .disabled(quizSubmitted)
                 }
@@ -166,14 +161,10 @@ struct quizView: View {
                         .font(.title2)
                         .padding()
                     
-                    
                     ForEach(0..<questions.count, id: \.self) { index in
                         let selectedIndex = selectedAnswers[index]
                         let correctIndex = questions[index].2
                         HStack {
-//                            Text("Q\(index + 1): \(questions[index].0)")
-//                                .font(.headline)
-                            
                             Spacer()
                             
                             if selectedIndex == correctIndex {
@@ -185,7 +176,6 @@ struct quizView: View {
                                     .foregroundColor(.red)
                                     .bold()
                             }
-                            
                         }
                         .padding(.vertical)
                     }
@@ -193,11 +183,26 @@ struct quizView: View {
             }
         }
     }
-    
-    func machineStatusUpdate(){
-        machines = [machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo, videoID: "PKQPey6L42M")]
-        let database = Firestore.firestore()
-        database.collection("Students").document(stud[0].name).setData(["name":stud[0].name,"Teacher":stud[0].Teacher,"AngleGrinderTest":stud[0].AngleGrinderTest,"AngleGrinderVideo":stud[0].AngleGrinderVideo,"Class":stud[0].Class,"LatheTest":stud[0].LatheTest,"LatheVideo":stud[0].LatheVideo,"MillTest":stud[0].MillTest,"MillVideo":stud[0].MillVideo,"WelderTest":stud[0].WelderTest,"WelderVideo":stud[0].WelderVideo])
-    }
 
+    func machineStatusUpdate() {
+        machines = [machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo, videoID: "PKQPey6L42M"),
+                    machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo, videoID: "PKQPey6L42M"),
+                    machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo, videoID: "PKQPey6L42M"),
+                    machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo, videoID: "PKQPey6L42M")]
+        
+        let database = Firestore.firestore()
+        database.collection("Students").document(stud[0].name).setData([
+            "name": stud[0].name,
+            "Teacher": stud[0].Teacher,
+            "AngleGrinderTest": stud[0].AngleGrinderTest,
+            "AngleGrinderVideo": stud[0].AngleGrinderVideo,
+            "Class": stud[0].Class,
+            "LatheTest": stud[0].LatheTest,
+            "LatheVideo": stud[0].LatheVideo,
+            "MillTest": stud[0].MillTest,
+            "MillVideo": stud[0].MillVideo,
+            "WelderTest": stud[0].WelderTest,
+            "WelderVideo": stud[0].WelderVideo
+        ])
+    }
 }
