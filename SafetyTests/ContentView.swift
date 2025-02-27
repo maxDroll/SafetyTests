@@ -13,12 +13,20 @@ struct ContentView: View {
     var body: some View {
         if name != ""{
             MachineSelectionView()
+                .preferredColorScheme(.light)
         }else{
             CreateAccountView()
+                .preferredColorScheme(.light)
         }
     }
 }
 
 #Preview {
     ContentView()
+        .preferredColorScheme(.light)
+}
+
+#Preview {
+    ContentView()
+        .preferredColorScheme(.dark)
 }
