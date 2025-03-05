@@ -20,49 +20,50 @@ struct StudentMachineView: View {
     @Query var stud:[StudentData] = []
     @FirestoreQuery(collectionPath: "Students") var students:[Student]
     var body: some View {
-        VStack{
-            if selectedMachine == ""{
-                Text("Select a Machine")
-                    .font(.largeTitle)
-            }
-            else{
-                Text(selectedMachine)
-                    .font(.largeTitle)
-                //                Text("Required PPE: Safety Glasses")
-                    .padding()
-                VStack(alignment: .leading) {
-                    if selectedMachine == "Mille" {
-                        Text("Required PPE: Safety Glasses")
-                        Text("Reminders: ")
-                        Text("Remove rings, watches, and bracelets")
-                        Text("Roll up long sleeves")
-                        Text("Tie back long hair")
-                    }
-                    if selectedMachine == "Lathe" {
-                        Text("Required PPE: Safety Glasses")
-                        Text("Reminders: ")
-                        Text("Remove rings, watches, and bracelets")
-                        Text("Roll up long sleeves")
-                        Text("Tuck in or remove necklaces and hoodie strings")
-                        Text("Tie back long hair")
-                    }
-                    if selectedMachine == "Welder" {
-                        Text("Required PPE: Safety Glasses, Face Shield, Leather Gloves")
-                        Text("Reminders: ")
-                        Text("Check that your mask is functioning properly and is a minimum shade 10")
-                        Text("Remove any flammable materials from the surrounding area")
-                        Text("Always allow parts to cool before handling")
-                       
-                    }
-                    if selectedMachine == "Angle Grinder" {
-                        Text("Required PPE: Safety Glasses, Face Shield, Leather Gloves")
-                        Text("Ensure that your workpiece is properly secured")
-                        Text("Remove any flammable materials from the surrounding area")
-                        Text("Get a strong base and use two hands at all times")
-                    }
+        if let screenSize = UIScreen.main.bounds as CGRect? {
+            VStack{
+                if selectedMachine == ""{
+                    Text("Select a Machine")
+                        .font(.largeTitle)
                 }
-                
-               
+                else{
+                    Text(selectedMachine)
+                        .font(.largeTitle)
+                    //                Text("Required PPE: Safety Glasses")
+                        .padding()
+                    VStack(alignment: .leading) {
+                        if selectedMachine == "Mille" {
+                            Text("Required PPE: Safety Glasses")
+                            Text("Reminders: ")
+                            Text("Remove rings, watches, and bracelets")
+                            Text("Roll up long sleeves")
+                            Text("Tie back long hair")
+                        }
+                        if selectedMachine == "Lathe" {
+                            Text("Required PPE: Safety Glasses")
+                            Text("Reminders: ")
+                            Text("Remove rings, watches, and bracelets")
+                            Text("Roll up long sleeves")
+                            Text("Tuck in or remove necklaces and hoodie strings")
+                            Text("Tie back long hair")
+                        }
+                        if selectedMachine == "Welder" {
+                            Text("Required PPE: Safety Glasses, Face Shield, Leather Gloves")
+                            Text("Reminders: ")
+                            Text("Check that your mask is functioning properly and is a minimum shade 10")
+                            Text("Remove any flammable materials from the surrounding area")
+                            Text("Always allow parts to cool before handling")
+                            
+                        }
+                        if selectedMachine == "Angle Grinder" {
+                            Text("Required PPE: Safety Glasses, Face Shield, Leather Gloves")
+                            Text("Ensure that your workpiece is properly secured")
+                            Text("Remove any flammable materials from the surrounding area")
+                            Text("Get a strong base and use two hands at all times")
+                        }
+                    }
+                    
+                    
                     
                     HStack{
                         VStack{
@@ -77,8 +78,8 @@ struct StudentMachineView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                             NavigationLink {
-//                                quizView(machines: $machines, selectedMachine: $selectedMachine)
-                                quizViewV2(selectedMachine: $selectedMachine)
+                                quizView(machines: $machines, selectedMachine: $selectedMachine)
+                                //                                quizViewV2(selectedMachine: $selectedMachine)
                             } label: {
                                 Text("Go to Quiz View")
                                     .frame(width: 250, height: 100)
@@ -107,19 +108,20 @@ struct StudentMachineView: View {
                     
                 }
             }
-                .frame(width: 600, height: 1000)
-                .onAppear{
-                    machineStatusUpdate()
-                }
-            
+            .frame(width: (screenSize.width * (6 / 12)), height: 1000)
+            .onAppear{
+                machineStatusUpdate()
+            }
+        }
         }
         func machineStatusUpdate(){
             //Reset Account
             
-            //        name = ""
-            //        Class = ""
-            //        for element in stud{
-            //            context.delete(element)
+//                    name = ""
+//                    Class = ""
+//            for element in stud{
+//                context.delete(element)
+//            }
 //
             
             machines = [machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo, videoID: "PKQPey6L42M")]
