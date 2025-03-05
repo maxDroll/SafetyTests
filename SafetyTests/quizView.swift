@@ -1,8 +1,7 @@
+// quizView.swift
+// SafetyTests
 //
-//  quizView.swift
-//  SafetyTests
-//
-//  Created by Eric M. Wetzel on 1/10/25.
+// Created by Eric M. Wetzel on 1/10/25.
 //
 
 import SwiftUI
@@ -16,9 +15,10 @@ struct quizView: View {
     @State private var showResults: Bool = false
     @State private var quizSubmitted: Bool = false
     @Environment(\.modelContext) var context
-    @Query var stud:[StudentData] = []
-    @FirestoreQuery(collectionPath: "Students") var students:[Student]
+    @Query var stud: [StudentData] = []
+    @FirestoreQuery(collectionPath: "Students") var students: [Student]
     @Binding var machines: [machineInfo]
+    
     let quizzes: [String: [(String, [String], Int)]] = [
         "Mille": [
             ("1", ["a", "b", "correct", "d"], 2),
@@ -57,47 +57,51 @@ struct quizView: View {
 
     func calculateScore() -> Int {
         var score = 0
-        
         for (index, answer) in selectedAnswers.enumerated() {
             if let selectedIndex = answer, selectedIndex == questions[index].2 {
                 score += 1
             }
         }
-        
         return score
     }
-    
+
     var body: some View {
         VStack(spacing: 20) {
             VStack(alignment: .leading, spacing: 10) {
-                let questions: [(String, [String], Int)] = quizzes[selectedMachine] ?? []
-
                 Text(questions[currentQuestionIndex].0)
-                    .font(.title2)
-                            .bold()
-                            .padding(.bottom, 20)
-                            .fontWeight(.bold)
-                            .foregroundColor(.primary)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 15) {
+                    .font(.largeTitle)
+                    .bold()
+                    .foregroundColor(.primary)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.bottom, 100)
+
+                LazyVGrid(columns: [GridItem(.fixed(250)), GridItem(.fixed(250))], spacing: 55) {
                     ForEach(questions[currentQuestionIndex].1.indices, id: \.self) { optionIndex in
-                        Button(action: {
-                            if !quizSubmitted {
-                                selectedAnswers[currentQuestionIndex] = optionIndex
-                            }
-                        }) {
-                            HStack {
-                                Circle()
-                                    .fill(selectedAnswers[currentQuestionIndex] == optionIndex ? Color.blue : Color.gray)
-                                    .frame(width: 20, height: 20)
-                                Text(questions[currentQuestionIndex].1[optionIndex])
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                            .padding(10)
-                            .background(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.gray))
+                        HStack {
+                           
+                            Circle()
+                                .fill(selectedAnswers[currentQuestionIndex] == optionIndex ? Color.blue : Color.gray)
+                                .frame(width: 20, height: 20)
+                                .onTapGesture {
+                                    if !quizSubmitted {
+                                        selectedAnswers[currentQuestionIndex] = optionIndex
+                                    }
+                                }
+                            
+                            Text(questions[currentQuestionIndex].1[optionIndex])
+                                .font(.title)
+                                .padding()
+                                .cornerRadius(10)
+                                .frame(width: 200, height: 50)
+                                .border(Color.gray, width: 2)
+                            
+                                .onTapGesture {
+                                    if !quizSubmitted {
+                                        selectedAnswers[currentQuestionIndex] = optionIndex
+                                    }
+                                }
+
                         }
-                        .disabled(quizSubmitted)
                     }
                 }
             }
@@ -115,9 +119,9 @@ struct quizView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
                 }
-                
+
                 Spacer()
-                
+
                 if currentQuestionIndex < questions.count - 1 && !quizSubmitted {
                     Button(action: {
                         currentQuestionIndex += 1
@@ -153,20 +157,20 @@ struct quizView: View {
                 }
             }
             .padding(.top)
-            
+
             if showResults {
                 let score = calculateScore()
                 VStack {
                     Text("You scored \(score) out of \(questions.count)")
                         .font(.title2)
                         .padding()
-                    
+
                     ForEach(0..<questions.count, id: \.self) { index in
                         let selectedIndex = selectedAnswers[index]
                         let correctIndex = questions[index].2
                         HStack {
                             Spacer()
-                            
+
                             if selectedIndex == correctIndex {
                                 Text("Correct")
                                     .foregroundColor(.green)
@@ -182,14 +186,18 @@ struct quizView: View {
                 }
             }
         }
+        .frame(width: 1200, height: 5000)
+        .background(Color.gray.opacity(0.5).ignoresSafeArea())
     }
 
     func machineStatusUpdate() {
-        machines = [machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo, videoID: "PKQPey6L42M"),
-                    machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo, videoID: "PKQPey6L42M"),
-                    machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo, videoID: "PKQPey6L42M"),
-                    machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo, videoID: "PKQPey6L42M")]
-        
+        machines = [
+            machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo, videoID: "PKQPey6L42M"),
+            machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo, videoID: "PKQPey6L42M"),
+            machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo, videoID: "PKQPey6L42M"),
+            machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo, videoID: "PKQPey6L42M")
+        ]
+
         let database = Firestore.firestore()
         database.collection("Students").document(stud[0].name).setData([
             "name": stud[0].name,
