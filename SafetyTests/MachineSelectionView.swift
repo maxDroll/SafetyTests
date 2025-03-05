@@ -19,45 +19,47 @@ struct MachineSelectionView: View {
     
     var body: some View {
         NavigationStack {
-            HStack(spacing:0){
-                VStack(spacing:0){
-                    Rectangle()
-                        .frame(width:500,height:3,alignment: .leading)
-                    ForEach(machines, id: \.self) { machine in
-                        Button(action: {
-                            selectedMachine = machine
-                            for StudentTemp in students{
-                                if name == StudentTemp.name && Class == StudentTemp.Class{
-                                    student = StudentTemp
+            if let screenSize = UIScreen.main.bounds as CGRect? {
+                HStack(spacing:0){
+                    VStack(spacing:0){
+//                        Rectangle()
+//                            .frame(width: (screenSize.width * (5 / 12)),height:3,alignment: .leading)
+                        ForEach(machines, id: \.self) { machine in
+                            Button(action: {
+                                selectedMachine = machine
+                                for StudentTemp in students{
+                                    if name == StudentTemp.name && Class == StudentTemp.Class{
+                                        student = StudentTemp
+                                    }
                                 }
-                            }
-                        },label:  {
-                            ZStack{
-                                Text(machine)
-                                    .foregroundStyle(.black)
-                                    .frame(width:460,height:203,alignment: .leading)
-                                    .font(.system(size: 50))
-                                if selectedMachine == machine{
-                                    Rectangle()
-                                        .frame(width: 500, height: 203)
-                                        .foregroundStyle(.blue)
-                                        .opacity(0.3)
+                            },label:  {
+                                ZStack{
+                                    Text(machine)
+                                        .foregroundStyle(.black)
+                                        .frame(width:(screenSize.width * (5 / 12)) - 40,height:208,alignment: .leading)
+                                        .font(.system(size: 50))
+                                    if selectedMachine == machine{
+                                        Rectangle()
+                                            .frame(width: (screenSize.width * (5 / 12)) + 17, height: 208)
+                                            .foregroundStyle(.blue)
+                                            .opacity(0.3)
+                                    }
                                 }
-                            }
-                        })
-                        Rectangle()
-                            .frame(width:500,height:3,alignment: .leading)
+                            })
+                            Rectangle()
+                                .frame(width:(screenSize.width * (5 / 12)) + 17,height:3,alignment: .leading)
+                        }
                     }
+                    .offset(x:-40)
+                    .padding()
+                    Rectangle()
+                        .frame(width: 3, height: 9000)
+                        .offset(x: -57)
+                    StudentMachineView(selectedMachine: $selectedMachine)
                 }
-                .offset(x:-40)
-                .padding()
-                Rectangle()
-                    .frame(width: 3, height: 900)
-                    .offset(x: -57)
-                StudentMachineView(selectedMachine: $selectedMachine)
+                .frame(width: (screenSize.width * (5 / 12)) + 40, height: 795)
+                
             }
-            .frame(width: 540, height: 795)
-            
         }
     }
 }
