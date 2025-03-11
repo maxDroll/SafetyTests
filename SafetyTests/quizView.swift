@@ -20,7 +20,7 @@ struct quizView: View {
     @Binding var machines: [machineInfo]
     
     let quizzes: [String: [(String, [String], Int)]] = [
-        "Mille": [
+        "Mill": [
             ("1", ["a", "b", "correct", "d"], 2),
             ("2", ["a", "correct", "c", "d"], 1),
             ("3", ["a", "b", "c", "correct"], 3),
@@ -138,7 +138,7 @@ struct quizView: View {
                         showResults = true
                         quizSubmitted = true
                         switch selectedMachine {
-                        case "Mille": stud[0].MillTest = calculateScore()
+                        case "Mill": stud[0].MillTest = calculateScore()
                         case "Angle Grinder": stud[0].AngleGrinderTest = calculateScore()
                         case "Lathe": stud[0].LatheTest = calculateScore()
                         default: stud[0].WelderTest = calculateScore()
@@ -192,7 +192,7 @@ struct quizView: View {
 
     func machineStatusUpdate() {
         machines = [
-            machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo, videoID: "PKQPey6L42M"),
+            machineInfo(name: "Mill", test: stud[0].MillTest, video: stud[0].MillVideo, videoID: "PKQPey6L42M"),
             machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo, videoID: "PKQPey6L42M"),
             machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo, videoID: "PKQPey6L42M"),
             machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo, videoID: "PKQPey6L42M")
