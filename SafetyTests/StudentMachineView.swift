@@ -15,7 +15,10 @@ struct StudentMachineView: View {
     @AppStorage("class") var Class = ""
     @State var machines:[machineInfo] = []
     @Binding var selectedMachine: String
-    @State private var hasWatchedVideo: Bool = false
+    @State var ShowAlert1 = false
+    @State var ShowAlert2 = false
+    @State var enteredPassword = ""
+    @State var correctPassword = false
     @Environment(\.modelContext) var context
     @Query var stud:[StudentData] = []
     @FirestoreQuery(collectionPath: "Students") var students:[Student]
@@ -29,38 +32,71 @@ struct StudentMachineView: View {
                 else{
                     Text(selectedMachine)
                         .font(.largeTitle)
-                    //                Text("Required PPE: Safety Glasses")
                         .padding()
-                    VStack(alignment: .leading) {
-                        if selectedMachine == "Mille" {
-                            Text("Required PPE: Safety Glasses")
-                            Text("Reminders: ")
-                            Text("Remove rings, watches, and bracelets")
-                            Text("Roll up long sleeves")
-                            Text("Tie back long hair")
+                    ZStack{
+                        VStack(alignment: .leading) {
+                            if selectedMachine == "Mille" {
+                                Text("Required PPE: Safety Glasses")
+                                Text("Reminders: ")
+                                Text("Remove rings, watches, and bracelets")
+                                Text("Roll up long sleeves")
+                                Text("Tie back long hair")
+                            }
+                            if selectedMachine == "Lathe" {
+                                Text("Required PPE: Safety Glasses")
+                                Text("Reminders: ")
+                                Text("Remove rings, watches, and bracelets")
+                                Text("Roll up long sleeves")
+                                Text("Tuck in or remove necklaces and hoodie strings")
+                                Text("Tie back long hair")
+                            }
+                            if selectedMachine == "Welder" {
+                                Text("Required PPE: Safety Glasses, Face Shield, Leather Gloves")
+                                Text("Reminders: ")
+                                Text("Check that your mask is functioning properly and is a minimum shade 10")
+                                Text("Remove any flammable materials from the surrounding area")
+                                Text("Always allow parts to cool before handling")
+                                
+                            }
+                            if selectedMachine == "Angle Grinder" {
+                                Text("Required PPE: Safety Glasses, Face Shield, Leather Gloves")
+                                Text("Reminders: ")
+                                Text("Ensure that your workpiece is properly secured")
+                                Text("Remove any flammable materials from the surrounding area")
+                                Text("Get a strong base and use two hands at all times")
+                            }
                         }
-                        if selectedMachine == "Lathe" {
-                            Text("Required PPE: Safety Glasses")
-                            Text("Reminders: ")
-                            Text("Remove rings, watches, and bracelets")
-                            Text("Roll up long sleeves")
-                            Text("Tuck in or remove necklaces and hoodie strings")
-                            Text("Tie back long hair")
+                        Button {
+                            ShowAlert1 = true
+                        } label: {
+                            Text("Admin reset")
+                                .foregroundStyle(.white)
+                                .frame(width: 100, height: 25)
+                                .background(.blue)
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
                         }
-                        if selectedMachine == "Welder" {
-                            Text("Required PPE: Safety Glasses, Face Shield, Leather Gloves")
-                            Text("Reminders: ")
-                            Text("Check that your mask is functioning properly and is a minimum shade 10")
-                            Text("Remove any flammable materials from the surrounding area")
-                            Text("Always allow parts to cool before handling")
-                            
-                        }
-                        if selectedMachine == "Angle Grinder" {
-                            Text("Required PPE: Safety Glasses, Face Shield, Leather Gloves")
-                            Text("Ensure that your workpiece is properly secured")
-                            Text("Remove any flammable materials from the surrounding area")
-                            Text("Get a strong base and use two hands at all times")
-                        }
+                        .offset(x: 250, y: -300)
+                        .alert("Class Reset", isPresented: $ShowAlert1, actions: {
+                            TextField("Admin Password", text: $enteredPassword)
+                            Button("Enter", role: .cancel, action: {
+                                if enteredPassword == "12345"{
+                                    ShowAlert2 = true
+                                    enteredPassword = ""
+                                }
+                            })
+                        }, message: {
+                            Text("Please Enter Admin Password")
+                        })
+                        .alert("Reset Class", isPresented: $ShowAlert2, actions: {
+                            TextField("New Class", text: $Class)
+                            Button("Enter", role: .cancel, action: {
+                                stud[0].Class = Class
+                                machineStatusUpdate()
+                            })
+                        }, message: {
+                            Text("Please Enter New Class")
+                        })
+                        
                     }
                     
                     
@@ -113,21 +149,21 @@ struct StudentMachineView: View {
                 machineStatusUpdate()
             }
         }
-        }
-        func machineStatusUpdate(){
-            //Reset Account
-            
-//                    name = ""
-//                    Class = ""
-//            for element in stud{
-//                context.delete(element)
-//            }
-//
-            
-            machines = [machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo, videoID: "PKQPey6L42M")]
-            let database = Firestore.firestore()
-            database.collection("Students").document(stud[0].name).setData(["name":stud[0].name,"Teacher":stud[0].Teacher,"AngleGrinderTest":stud[0].AngleGrinderTest,"AngleGrinderVideo":stud[0].AngleGrinderVideo,"Class":stud[0].Class,"LatheTest":stud[0].LatheTest,"LatheVideo":stud[0].LatheVideo,"MillTest":stud[0].MillTest,"MillVideo":stud[0].MillVideo,"WelderTest":stud[0].WelderTest,"WelderVideo":stud[0].WelderVideo])
-            
-        }
     }
+    func machineStatusUpdate(){
+        //Reset Account
+        
+        //                    name = ""
+        //                    Class = ""
+        //            for element in stud{
+        //                context.delete(element)
+        //            }
+        //
+        
+        machines = [machineInfo(name: "Mille", test: stud[0].MillTest, video: stud[0].MillVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Angle Grinder", test: stud[0].AngleGrinderTest, video: stud[0].AngleGrinderVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Lathe", test: stud[0].LatheTest, video: stud[0].LatheVideo, videoID: "PKQPey6L42M"),machineInfo(name: "Welder", test: stud[0].WelderTest, video: stud[0].WelderVideo, videoID: "PKQPey6L42M")]
+        let database = Firestore.firestore()
+        database.collection("Students").document(stud[0].name).setData(["name":stud[0].name,"Teacher":stud[0].Teacher,"AngleGrinderTest":stud[0].AngleGrinderTest,"AngleGrinderVideo":stud[0].AngleGrinderVideo,"Class":stud[0].Class,"LatheTest":stud[0].LatheTest,"LatheVideo":stud[0].LatheVideo,"MillTest":stud[0].MillTest,"MillVideo":stud[0].MillVideo,"WelderTest":stud[0].WelderTest,"WelderVideo":stud[0].WelderVideo])
+        
+    }
+}
 
