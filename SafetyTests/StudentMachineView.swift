@@ -116,7 +116,7 @@ struct StudentMachineView: View {
                             NavigationLink {
                                 quizView(machines: $machines, selectedMachine: $selectedMachine)
                                     .navigationBarBackButtonHidden(true)
-                                //                                quizViewV2(selectedMachine: $selectedMachine)
+//                                                                quizViewV2(selectedMachine: $selectedMachine)
                             } label: {
                                 Text("Go to Quiz View")
                                     .frame(width: 250, height: 100)

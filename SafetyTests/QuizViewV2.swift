@@ -16,16 +16,34 @@ struct quizViewV2: View {
     @Binding var selectedMachine:String
     @State var questionNumber = 0
     @State var answers: [Int] = [-1,-1,-1,-1,-1]
-    @State var questions: [questionsStruct] = [questionsStruct(Quests: ["Lathe1","Lathe2","Lathe3","Lathe4","Lathe5"], correctAnswers: [0,3,2,4,1], answersVar: [answer(answer14:["A1","B1","C1","D1"]),answer(answer14:["A2","B2","C2","D2"]),answer(answer14:["A3","B3","C3","D3"]),answer(answer14:["A4","B4","C4","D4"]),answer(answer14:["A5","B5","C5","D5"])], machine: "Lathe"),questionsStruct(Quests: ["Mill1","Mill2","Mill3","Mill4","Mill5"], correctAnswers: [0,3,2,4,1], answersVar: [answer(answer14:["A1","B1","C1","D1"]),answer(answer14:["A2","B2","C2","D2"]),answer(answer14:["A3","B3","C3","D3"]),answer(answer14:["A4","B4","C4","D4"]),answer(answer14:["A5","B5","C5","D5"])], machine: "Mill"),questionsStruct(Quests: ["AngleGrinder1","AngleGrinder2","AngleGrinder3","AngleGrinder4","AngleGrinder5"], correctAnswers: [0,3,2,4,1], answersVar: [answer(answer14:["A1","B1","C1","D1"]),answer(answer14:["A2","B2","C2","D2"]),answer(answer14:["A3","B3","C3","D3"]),answer(answer14:["A4","B4","C4","D4"]),answer(answer14:["A5","B5","C5","D5"])], machine: "Angle Grinder"),questionsStruct(Quests: ["Welder1","Welder2","Welder3","Welder4","Welder5"], correctAnswers: [0,3,2,4,1], answersVar: [answer(answer14:["A1","B1","C1","D1"]),answer(answer14:["A2","B2","C2","D2"]),answer(answer14:["A3","B3","C3","D3"]),answer(answer14:["A4","B4","C4","D4"]),answer(answer14:["A5","B5","C5","D5"])], machine: "Welder")]
+    @State var machine = -1
+    @State var questions: [questionsStruct] = [questionsStruct(Quests: ["Lathe1","Lathe2","Lathe3","Lathe4","Lathe5"], correctAnswers: [0,3,2,3,1], answersVar: [answer(answer14:["A1","B1","C1","D1"]),answer(answer14:["A2","B2","C2","D2"]),answer(answer14:["A3","B3","C3","D3"]),answer(answer14:["A4","B4","C4","D4"]),answer(answer14:["A5","B5","C5","D5"])], machine: "Lathe"),questionsStruct(Quests: ["Mill1","Mill2","Mill3","Mill4","Mill5"], correctAnswers: [0,3,2,3,1], answersVar: [answer(answer14:["A1","B1","C1","D1"]),answer(answer14:["A2","B2","C2","D2"]),answer(answer14:["A3","B3","C3","D3"]),answer(answer14:["A4","B4","C4","D4"]),answer(answer14:["A5","B5","C5","D5"])], machine: "Mill"),questionsStruct(Quests: ["AngleGrinder1","AngleGrinder2","AngleGrinder3","AngleGrinder4","AngleGrinder5"], correctAnswers: [0,3,2,3,1], answersVar: [answer(answer14:["A1","B1","C1","D1"]),answer(answer14:["A2","B2","C2","D2"]),answer(answer14:["A3","B3","C3","D3"]),answer(answer14:["A4","B4","C4","D4"]),answer(answer14:["A5","B5","C5","D5"])], machine: "Angle Grinder"),questionsStruct(Quests: ["Welder1","Welder2","Welder3","Welder4","Welder5"], correctAnswers: [0,3,2,3,1], answersVar: [answer(answer14:["A1","B1","C1","D1"]),answer(answer14:["A2","B2","C2","D2"]),answer(answer14:["A3","B3","C3","D3"]),answer(answer14:["A4","B4","C4","D4"]),answer(answer14:["A5","B5","C5","D5"])], machine: "Welder")]
     var body: some View {
         if submitted{
-            
+            Text("You Got a \(countRight())/5")
+            ForEach(0...4, id:\.self){number in
+                if answers[number] == questions[machine].correctAnswers[number]{
+                    Text("\(number): correct")
+                }else{
+                    Text("\(number): incorrect")
+                }
+            }
         } else{
-            QuestionsView(answers: $answers, questions: questions, submitted: $submitted, selectedMachine: selectedMachine)
+            QuestionsView(answers: $answers, machine: $machine, questions: questions, submitted: $submitted, selectedMachine: selectedMachine)
         }
+    }
+    func countRight() -> Int{
+        var counter = 0
+        for n in 0...4{
+            if answers[n] == questions[machine].correctAnswers[n]{
+                counter += 1
+            }
+        }
+        return counter
     }
     struct QuestionsView: View {
         @Binding var answers:[Int]
+        @Binding var machine: Int
         let questions: [questionsStruct]
         @State var questionNumber = 0
         @Binding var submitted: Bool
@@ -38,12 +56,12 @@ struct quizViewV2: View {
                             .font(.largeTitle)
                         HStack{
                             VStack{
-                                IndividualAnswer(answers: $answers, machine: machine, questionNumber: questionNumber, questionOption: 0)
-                                IndividualAnswer(answers: $answers, machine: machine, questionNumber: questionNumber, questionOption: 2)
+                                IndividualAnswer(answers: $answers, machine: machine, questionNumber: questionNumber, questionOption: 0, submitted: submitted)
+                                IndividualAnswer(answers: $answers, machine: machine, questionNumber: questionNumber, questionOption: 2, submitted: submitted)
                             }
                             VStack{
-                                IndividualAnswer(answers: $answers, machine: machine, questionNumber: questionNumber, questionOption: 1)
-                                IndividualAnswer(answers: $answers, machine: machine, questionNumber: questionNumber, questionOption: 3)
+                                IndividualAnswer(answers: $answers, machine: machine, questionNumber: questionNumber, questionOption: 1, submitted: submitted)
+                                IndividualAnswer(answers: $answers, machine: machine, questionNumber: questionNumber, questionOption: 3, submitted: submitted)
                             }
                         }
                     }
@@ -61,6 +79,12 @@ struct quizViewV2: View {
                 if questionNumber == 4{
                     Button("submit"){
                         submitted = true
+                        switch selectedMachine{
+                        case "Lathe": machine = 0
+                        case "Mill": machine = 1
+                        case "Angle Grinder": machine = 2
+                        default: machine = 3
+                        }
                     }
                 }
             }
@@ -71,6 +95,7 @@ struct quizViewV2: View {
         let machine: questionsStruct
         var questionNumber: Int
         let questionOption: Int
+        let submitted: Bool
         var body: some View {
             ZStack{
                 if answers[questionNumber] == questionOption{
@@ -88,6 +113,7 @@ struct quizViewV2: View {
                         .border(Color.black, width: 3)
                         .foregroundStyle(.black)
                 }
+                .disabled(submitted)
             }
         }
     }
