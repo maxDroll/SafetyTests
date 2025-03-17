@@ -134,26 +134,41 @@ struct quizView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
                 } else {
-                    Button(action: {
-                        showResults = true
-                        quizSubmitted = true
-                        switch selectedMachine {
-                        case "Mill": stud[0].MillTest = calculateScore()
-                        case "Angle Grinder": stud[0].AngleGrinderTest = calculateScore()
-                        case "Lathe": stud[0].LatheTest = calculateScore()
-                        default: stud[0].WelderTest = calculateScore()
+                    if !quizSubmitted{
+                        Button(action: {
+                            showResults = true
+                            quizSubmitted = true
+                            switch selectedMachine {
+                            case "Mill": stud[0].MillTest = calculateScore()
+                            case "Angle Grinder": stud[0].AngleGrinderTest = calculateScore()
+                            case "Lathe": stud[0].LatheTest = calculateScore()
+                            default: stud[0].WelderTest = calculateScore()
+                            }
+                            machineStatusUpdate()
+                        }) {
+                            Text("Submit")
+                                .frame(width: 180, height: 60)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .font(.title2)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .shadow(radius: 8)
                         }
-                        machineStatusUpdate()
-                    }) {
-                        Text("Submit")
-                            .frame(width: 180, height: 60)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .font(.title2)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .shadow(radius: 8)
                     }
-                    .disabled(quizSubmitted)
+                    if quizSubmitted{
+                        NavigationLink {
+                            MachineSelectionView()
+                                .navigationBarBackButtonHidden(true)
+                        } label: {
+                            Text("Return")
+                                .frame(width: 180, height: 60)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .font(.title2)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .shadow(radius: 8)
+                        }
+                    }
                 }
             }
             .padding(.top)
