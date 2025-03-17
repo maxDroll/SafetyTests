@@ -38,76 +38,12 @@ struct quizViewV2: View {
                             .font(.largeTitle)
                         HStack{
                             VStack{
-                                ZStack{
-                                    if answers[questionNumber] == 0{
-                                        Rectangle()
-                                            .frame(width: 400, height: 100)
-                                            .foregroundStyle(.blue)
-                                            .opacity(0.3)
-                                    }
-                                    Button {
-                                        answers[questionNumber] = 0
-                                    } label: {
-                                        Text("  " + machine.answersVar[questionNumber].answer14[0])
-                                            .font(.title)
-                                            .frame(width: 400, height: 100, alignment: .leading)
-                                            .border(Color.black, width: 3)
-                                            .foregroundStyle(.black)
-                                    }
-                                }
-                                ZStack{
-                                    if answers[questionNumber] == 2{
-                                        Rectangle()
-                                            .frame(width: 400, height: 100)
-                                            .foregroundStyle(.blue)
-                                            .opacity(0.3)
-                                    }
-                                    Button {
-                                        answers[questionNumber] = 2
-                                    } label: {
-                                        Text("  " + machine.answersVar[questionNumber].answer14[2])
-                                            .font(.title)
-                                            .frame(width: 400, height: 100, alignment: .leading)
-                                            .border(Color.black, width: 3)
-                                            .foregroundStyle(.black)
-                                    }
-                                }
+                                IndividualAnswer(answers: $answers, machine: machine, questionNumber: questionNumber, questionOption: 0)
+                                IndividualAnswer(answers: $answers, machine: machine, questionNumber: questionNumber, questionOption: 2)
                             }
                             VStack{
-                                ZStack{
-                                    if answers[questionNumber] == 1{
-                                        Rectangle()
-                                            .frame(width: 400, height: 100)
-                                            .foregroundStyle(.blue)
-                                            .opacity(0.3)
-                                    }
-                                    Button {
-                                        answers[questionNumber] = 1
-                                    } label: {
-                                        Text("  " + machine.answersVar[questionNumber].answer14[1])
-                                            .font(.title)
-                                            .frame(width: 400, height: 100, alignment: .leading)
-                                            .border(Color.black, width: 3)
-                                            .foregroundStyle(.black)
-                                    }
-                                }
-                                ZStack{
-                                    if answers[questionNumber] == 3{
-                                        Rectangle()
-                                            .frame(width: 400, height: 100)
-                                            .foregroundStyle(.blue)
-                                            .opacity(0.3)
-                                    }
-                                    Button {
-                                        answers[questionNumber] = 3
-                                    } label: {
-                                        Text("  " + machine.answersVar[questionNumber].answer14[3])
-                                            .font(.title)
-                                            .frame(width: 400, height: 100, alignment: .leading)
-                                            .border(Color.black, width: 3)
-                                            .foregroundStyle(.black)
-                                    }
-                                }
+                                IndividualAnswer(answers: $answers, machine: machine, questionNumber: questionNumber, questionOption: 1)
+                                IndividualAnswer(answers: $answers, machine: machine, questionNumber: questionNumber, questionOption: 3)
                             }
                         }
                     }
@@ -126,6 +62,31 @@ struct quizViewV2: View {
                     Button("submit"){
                         submitted = true
                     }
+                }
+            }
+        }
+    }
+    struct IndividualAnswer: View {
+        @Binding var answers:[Int]
+        let machine: questionsStruct
+        var questionNumber: Int
+        let questionOption: Int
+        var body: some View {
+            ZStack{
+                if answers[questionNumber] == questionOption{
+                    Rectangle()
+                        .frame(width: 400, height: 100)
+                        .foregroundStyle(.blue)
+                        .opacity(0.3)
+                }
+                Button {
+                    answers[questionNumber] = questionOption
+                } label: {
+                    Text("  " + machine.answersVar[questionNumber].answer14[questionOption])
+                        .font(.title)
+                        .frame(width: 400, height: 100, alignment: .leading)
+                        .border(Color.black, width: 3)
+                        .foregroundStyle(.black)
                 }
             }
         }

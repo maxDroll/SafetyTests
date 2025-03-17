@@ -75,8 +75,8 @@ struct StudentMachineView: View {
                                 .background(.blue)
                                 .clipShape(RoundedRectangle(cornerRadius: 5))
                         }
-                        .offset(x: 250, y: -300)
-                        .alert("Class Reset", isPresented: $ShowAlert1, actions: {
+                        .offset(x: (screenSize.width * (4 / 19)), y: -300)
+                        .alert("Student Enrollment Reset", isPresented: $ShowAlert1, actions: {
                             TextField("Admin Password", text: $enteredPassword)
                             Button("Enter", role: .cancel, action: {
                                 if enteredPassword == "12345"{
@@ -87,14 +87,14 @@ struct StudentMachineView: View {
                         }, message: {
                             Text("Please Enter Admin Password")
                         })
-                        .alert("Reset Class", isPresented: $ShowAlert2, actions: {
-                            TextField("New Class", text: $Class)
+                        .alert("Student Enrollment Reset", isPresented: $ShowAlert2, actions: {
+                            TextField("New Class Code", text: $Class)
                             Button("Enter", role: .cancel, action: {
                                 stud[0].Class = Class
                                 machineStatusUpdate()
                             })
                         }, message: {
-                            Text("Please Enter New Class")
+                            Text("Please Enter New Class Code")
                         })
                         
                     }

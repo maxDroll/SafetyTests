@@ -87,20 +87,19 @@ struct quizView: View {
                                         selectedAnswers[currentQuestionIndex] = optionIndex
                                     }
                                 }
-                            
-                            Text(questions[currentQuestionIndex].1[optionIndex])
-                                .font(.title)
-                                .padding()
-                                .cornerRadius(10)
-                                .frame(width: 200, height: 50)
-                                .border(Color.gray, width: 2)
-                            
-                                .onTapGesture {
-                                    if !quizSubmitted {
-                                        selectedAnswers[currentQuestionIndex] = optionIndex
-                                    }
+                            Button {
+                                if !quizSubmitted {
+                                    selectedAnswers[currentQuestionIndex] = optionIndex
                                 }
-
+                            } label: {
+                                Text(questions[currentQuestionIndex].1[optionIndex])
+                                    .font(.title)
+                                    .foregroundStyle(.black)
+                                    .padding()
+                                    .cornerRadius(10)
+                                    .frame(width: 200, height: 50)
+                                    .border(Color.gray, width: 2)
+                            }
                         }
                     }
                 }
