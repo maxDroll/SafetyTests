@@ -15,7 +15,7 @@ struct MachineSelectionView: View {
     @AppStorage("class") var Class = ""
     @State private var selectedMachine: String = ""
     @FirestoreQuery(collectionPath: "Students") var students:[Student]
-    @State var student: Student = Student(AngleGrinderTest: -1, AngleGrinderVideo: false, Class: "Till", LatheTest: -1, LatheVideo: false, MillTest: -1, MillVideo: false, WelderTest: -1, WelderVideo: false, name: "Bill", Teacher: false)
+    @State var student: Student = Student(AngleGrinderTest: -1, AngleGrinderVideo: false, Class: "Till", LatheTest: -1, LatheVideo: false, MillTest: -1, MillVideo: false, WelderTest: -1, WelderVideo: false, name: "Bill", Teacher: false, StudentID: "somethin")
     
     var body: some View {
         NavigationStack {

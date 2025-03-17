@@ -17,8 +17,10 @@ struct CreateAccountView: View {
     @FirestoreQuery(collectionPath: "Students") var students:[Student]
     @AppStorage("name") var name = ""
     @AppStorage("class") var Class = ""
+    @AppStorage("ID") var ID = ""
     @State private var enterName: String = ""
     @State var enterClass: String = ""
+    @State var enterID: String = ""
     
     var body: some View {
         NavigationStack{
@@ -39,7 +41,11 @@ struct CreateAccountView: View {
                         .frame(width: 300)
                         .textFieldStyle(.roundedBorder)
                         .font(.title)
-                    TextField("Enter Class", text:$enterClass)
+                    TextField("Enter Class Code", text:$enterClass)
+                        .frame(width: 300)
+                        .textFieldStyle(.roundedBorder)
+                        .font(.title)
+                    TextField("Enter Student ID", text: $enterID)
                         .frame(width: 300)
                         .textFieldStyle(.roundedBorder)
                         .font(.title)
@@ -50,12 +56,15 @@ struct CreateAccountView: View {
                         } label: {
                             Text("Create Account")
                                 .foregroundColor(.white)
+                                .frame(width: 150, height: 40)
                                 .background(Color.blue)
-                                .font(.title)
+                                .font(.title2)
+                                .clipShape(RoundedRectangle(cornerRadius: 4))
                                 .offset(x:50)
                         }
-                        
+                        .disabled(enterClass.isEmpty || enterName.isEmpty)
                     }
+                    .disabled(enterClass == "" || enterName == "")
                 }
                 .frame(height: 250)
             }
@@ -63,13 +72,15 @@ struct CreateAccountView: View {
     }
     func CreateAccount(){
         let database = Firestore.firestore()
-        database.collection("Students").document(enterName).setData(["name":enterName,"Teacher":false,"AngleGrinderTest":-1,"AngleGrinderVideo":false,"Class":enterClass,"LatheTest":-1,"LatheVideo":false,"MillTest":-1,"MillVideo":false,"WelderTest":-1,"WelderVideo":false])
+        database.collection("Students").document(enterName).setData(["name":enterName,"Teacher":false,"AngleGrinderTest":-1,"AngleGrinderVideo":false,"Class":enterClass,"LatheTest":-1,"LatheVideo":false,"MillTest":-1,"MillVideo":false,"WelderTest":-1,"WelderVideo":false,"StudentID": enterID])
         
         let student = StudentData(AngleGrinderTest: -1, AngleGrinderVideo: false, Class: enterClass, LatheTest: -1, LatheVideo: false, MillTest: -1, MillVideo: false, WelderTest: -1, WelderVideo: false, name: enterName, Teacher: false)
         context.insert(student)
         name = enterName
         Class = enterClass
+        ID = enterID
         enterName = ""
         enterClass = ""
+        enterID = ""
     }
 }
