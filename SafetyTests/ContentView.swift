@@ -21,12 +21,4 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    ContentView()
-        .preferredColorScheme(.light)
-}
 
-#Preview {
-    ContentView()
-        .preferredColorScheme(.dark)
-}
