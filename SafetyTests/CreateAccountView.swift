@@ -62,9 +62,9 @@ struct CreateAccountView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 4))
                                 .offset(x:50)
                         }
-                        .disabled(enterClass.isEmpty || enterName.isEmpty)
+                        .disabled(enterClass == "" || enterName == "" || enterID == "")
                     }
-                    .disabled(enterClass == "" || enterName == "")
+                    .disabled(enterClass == "" || enterName == "" || enterID == "")
                 }
                 .frame(height: 250)
             }
