@@ -24,9 +24,14 @@ struct quizViewV2: View {
             ForEach(0...4, id:\.self){number in
                 if answers[number] == questions[machine].correctAnswers[number]{
                     Text("\(number): correct")
+                        .font(.title)
                 }else{
                     Text("\(number): incorrect")
+                        .font(.title)
                 }
+            }
+            ForEach(0...10, id:\.self){ number in
+                Text("Safety test garbage")
             }
         } else{
             QuestionsView(answers: $answers, machine: $machine, questions: questions, submitted: $submitted, selectedMachine: selectedMachine)
@@ -34,8 +39,8 @@ struct quizViewV2: View {
     }
     func countRight() -> Int{
         var counter = 0
-        for n in 0...4{
-            if answers[n] == questions[machine].correctAnswers[n]{
+        for i in 0...4{
+            if answers[i] == questions[machine].correctAnswers[i]{
                 counter += 1
             }
         }
