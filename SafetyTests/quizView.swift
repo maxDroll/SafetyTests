@@ -1,9 +1,3 @@
-// quizView.swift
-// SafetyTests
-//
-// Created by Eric M. Wetzel on 1/10/25.
-//
-
 import SwiftUI
 import SwiftData
 import Firebase
@@ -18,191 +12,164 @@ struct quizView: View {
     @Query var stud: [StudentData] = []
     @FirestoreQuery(collectionPath: "Students") var students: [Student]
     @Binding var machines: [machineInfo]
-    
+    @Binding var selectedMachine: String
+
     let quizzes: [String: [(String, [String], Int)]] = [
-        "Mill": [
-            ("1", ["a", "b", "correct", "d"], 2),
-            ("2", ["a", "correct", "c", "d"], 1),
-            ("3", ["a", "b", "c", "correct"], 3),
-            ("4", ["correct", "b", "c", "d"], 0),
-            ("5", ["correct", "b", "c", "d"], 0)
-        ],
-        "Angle Grinder": [
-            ("1", ["correct", "b", "c", "d"], 0),
-            ("2", ["a", "b", "c", "correct"], 3),
-            ("3", ["a", "b", "c", "correct"], 3),
-            ("4", ["a", "correct", "c", "d"], 1),
-            ("5", ["correct", "b", "c", "d"], 0)
-        ],
-        "Lathe": [
-            ("1", ["correct", "b", "b", "d"], 0),
-            ("2", ["a", "b", "correct", "d"], 2),
-            ("3", ["a", "b", "correct", "d"], 2),
-            ("4", ["a", "correct", "c", "d"], 1),
-            ("5", ["a", "b", "correct", "d"], 2)
-        ],
-        "Welder": [
-            ("1", ["a", "b", "correct", "d"], 2),
-            ("2", ["a", "b", "correct", "d"], 2),
-            ("3", ["a", "correct", "c", "d"], 1),
-            ("4", ["correct", "b", "c", "d"], 0),
-            ("5", ["a", "b", "correct", "d"], 2)
-        ]
+        "Mill": [("1", ["a", "b", "correct", "d"], 2), ("2", ["a", "correct", "c", "d"], 1), ("3", ["a", "b", "c", "correct"], 3), ("4", ["correct", "b", "c", "d"], 0), ("5", ["correct", "b", "c", "d"], 0)],
+        "Angle Grinder": [("1", ["correct", "b", "c", "d"], 0), ("2", ["a", "b", "c", "correct"], 3), ("3", ["a", "b", "c", "correct"], 3), ("4", ["a", "correct", "c", "d"], 1), ("5", ["correct", "b", "c", "d"], 0)],
+        "Lathe": [("1", ["correct", "b", "b", "d"], 0), ("2", ["a", "b", "correct", "d"], 2), ("3", ["a", "b", "correct", "d"], 2), ("4", ["a", "correct", "c", "d"], 1), ("5", ["a", "b", "correct", "d"], 2)],
+        "Welder": [("1", ["a", "b", "correct", "d"], 2), ("2", ["a", "b", "correct", "d"], 2), ("3", ["a", "correct", "c", "d"], 1), ("4", ["correct", "b", "c", "d"], 0), ("5", ["a", "b", "correct", "d"], 2)]
     ]
 
-    @Binding var selectedMachine: String
     var questions: [(String, [String], Int)] {
         quizzes[selectedMachine] ?? []
     }
 
     func calculateScore() -> Int {
-        var score = 0
-        for (index, answer) in selectedAnswers.enumerated() {
-            if let selectedIndex = answer, selectedIndex == questions[index].2 {
-                score += 1
-            }
+        selectedAnswers.enumerated().reduce(0) { result, item in
+            let (index, answer) = item
+            return result + ((answer == questions[index].2) ? 1 : 0)
         }
-        return score
     }
 
     var body: some View {
-        VStack(spacing: 20) {
-            VStack(alignment: .leading, spacing: 10) {
-                Text(questions[currentQuestionIndex].0)
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundColor(.primary)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.bottom, 100)
-
-                LazyVGrid(columns: [GridItem(.fixed(250)), GridItem(.fixed(250))], spacing: 55) {
-                    ForEach(questions[currentQuestionIndex].1.indices, id: \.self) { optionIndex in
-                        HStack {
-                           
-                            Circle()
-                                .fill(selectedAnswers[currentQuestionIndex] == optionIndex ? Color.blue : Color.gray)
-                                .frame(width: 20, height: 20)
-                                .onTapGesture {
-                                    if !quizSubmitted {
-                                        selectedAnswers[currentQuestionIndex] = optionIndex
-                                    }
-                                }
-                            Button {
-                                if !quizSubmitted {
-                                    selectedAnswers[currentQuestionIndex] = optionIndex
-                                }
-                            } label: {
-                                Text(questions[currentQuestionIndex].1[optionIndex])
-                                    .font(.title)
-                                    .foregroundStyle(.black)
-                                    .padding()
-                                    .cornerRadius(10)
-                                    .frame(width: 200, height: 50)
-                                    .border(Color.gray, width: 2)
-                            }
-                        }
-                    }
-                }
-            }
+        GeometryReader { geometry in
+            let isWide = geometry.size.width > 700
             
-            HStack {
-                if currentQuestionIndex > 0 && !quizSubmitted {
-                    Button(action: {
-                        currentQuestionIndex -= 1
-                    }) {
-                        Text("Previous")
-                            .frame(width: 135, height: 50)
-                            .background(.blue)
-                            .foregroundStyle(.white)
-                            .font(.title)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                    }
-                }
+            ZStack {
+                Color(.systemGray5).ignoresSafeArea()
 
-                Spacer()
+                ScrollView {
+                    VStack(spacing: 30) {
+                        Spacer(minLength: 30)
 
-                if currentQuestionIndex < questions.count - 1 && !quizSubmitted {
-                    Button(action: {
-                        currentQuestionIndex += 1
-                    }) {
-                        Text("Next")
-                            .frame(width: 90, height: 50)
-                            .background(.blue)
-                            .foregroundStyle(.white)
-                            .font(.title)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                    }
-                } else {
-                    if !quizSubmitted{
-                        Button(action: {
-                            showResults = true
-                            quizSubmitted = true
-                            switch selectedMachine {
-                            case "Mill": stud[0].MillTest = calculateScore()
-                            case "Angle Grinder": stud[0].AngleGrinderTest = calculateScore()
-                            case "Lathe": stud[0].LatheTest = calculateScore()
-                            default: stud[0].WelderTest = calculateScore()
+                        Text("Question \(currentQuestionIndex + 1) of \(questions.count)")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+
+                        Text(questions[currentQuestionIndex].0)
+                            .font(.largeTitle.bold())
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+
+                        LazyVGrid(
+                            columns: Array(repeating: GridItem(.flexible(), spacing: 20), count: isWide ? 2 : 1),
+                            spacing: 20
+                        ) {
+                            ForEach(questions[currentQuestionIndex].1.indices, id: \.self) { optionIndex in
+                                Button(action: {
+                                    if !quizSubmitted {
+                                        withAnimation {
+                                            selectedAnswers[currentQuestionIndex] = optionIndex
+                                        }
+                                    }
+                                }) {
+                                    HStack(spacing: 12) {
+                                        Circle()
+                                            .fill(selectedAnswers[currentQuestionIndex] == optionIndex ? Color.blue : Color.gray)
+                                            .frame(width: 20, height: 20)
+
+                                        Text(questions[currentQuestionIndex].1[optionIndex])
+                                            .foregroundColor(.black)
+                                            .font(.title3)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                    }
+                                    .padding()
+                                    .background(Color.white)
+                                    .cornerRadius(12)
+                                    .shadow(color: .gray.opacity(0.3), radius: 5)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .stroke(selectedAnswers[currentQuestionIndex] == optionIndex ? Color.blue : Color.gray, lineWidth: 2)
+                                    )
+                                }
+                                .padding(.horizontal, isWide ? 0 : 10)
                             }
-                            machineStatusUpdate()
-                        }) {
-                            Text("Submit")
-                                .frame(width: 180, height: 60)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .font(.title2)
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                                .shadow(radius: 8)
                         }
-                    }
-                    if quizSubmitted{
-                        NavigationLink {
-                            MachineSelectionView()
-                                .navigationBarBackButtonHidden(true)
-                        } label: {
-                            Text("Return")
-                                .frame(width: 180, height: 60)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .font(.title2)
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                                .shadow(radius: 8)
-                        }
-                    }
-                }
-            }
-            .padding(.top)
+                        .padding(.horizontal, 20)
 
-            if showResults {
-                let score = calculateScore()
-                VStack {
-                    Text("You scored \(score) out of \(questions.count)")
-                        .font(.title2)
-                        .padding()
+                        // Navigation buttons
+                        HStack(spacing: 20) {
+                            if currentQuestionIndex > 0 && !quizSubmitted {
+                                Button("Previous") {
+                                    withAnimation { currentQuestionIndex -= 1 }
+                                }
+                                .quizButtonStyle(width: 135)
+                            }
 
-                    ForEach(0..<questions.count, id: \.self) { index in
-                        let selectedIndex = selectedAnswers[index]
-                        let correctIndex = questions[index].2
-                        HStack {
                             Spacer()
 
-                            if selectedIndex == correctIndex {
-                                Text("Correct")
-                                    .foregroundColor(.green)
-                                    .bold()
+                            if currentQuestionIndex < questions.count - 1 && !quizSubmitted {
+                                Button("Next") {
+                                    withAnimation { currentQuestionIndex += 1 }
+                                }
+                                .quizButtonStyle(width: 90)
                             } else {
-                                Text("Incorrect")
-                                    .foregroundColor(.red)
-                                    .bold()
+                                if !quizSubmitted {
+                                    Button("Submit") {
+                                        showResults = true
+                                        quizSubmitted = true
+                                        switch selectedMachine {
+                                        case "Mill": stud[0].MillTest = calculateScore()
+                                        case "Angle Grinder": stud[0].AngleGrinderTest = calculateScore()
+                                        case "Lathe": stud[0].LatheTest = calculateScore()
+                                        default: stud[0].WelderTest = calculateScore()
+                                        }
+                                        machineStatusUpdate()
+                                    }
+                                    .quizButtonStyle()
+                                } else {
+                                    NavigationLink(destination: MachineSelectionView().navigationBarBackButtonHidden(true)) {
+                                        Text("Return")
+                                            .quizButtonStyle()
+                                    }
+                                }
                             }
                         }
-                        .padding(.vertical)
+                        .padding(.horizontal, 30)
+
+                        // Results View
+                        if showResults {
+                            VStack(spacing: 15) {
+                                Text("You scored \(calculateScore()) out of \(questions.count)")
+                                    .font(.title2.bold())
+                                    .padding(.top)
+
+                                ForEach(0..<questions.count, id: \.self) { index in
+                                    let selectedIndex = selectedAnswers[index]
+                                    let correctIndex = questions[index].2
+
+                                    HStack {
+                                        Text("Q\(index + 1):")
+                                        Spacer()
+                                        if selectedIndex == correctIndex {
+                                            Label("Correct", systemImage: "checkmark.circle")
+                                                .foregroundColor(.green)
+                                        } else {
+                                            Label("Incorrect", systemImage: "xmark.circle")
+                                                .foregroundColor(.red)
+                                        }
+                                    }
+                                    .padding(.horizontal)
+                                }
+                            }
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(12)
+                            .shadow(radius: 5)
+                            .padding(.horizontal)
+                        }
+
+                        Spacer(minLength: 50)
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal)
+                    .frame(minHeight: geometry.size.height) // Make sure it fills height even with little content
                 }
             }
         }
-        .frame(width: 1200, height: 5000)
-        .background(Color.gray.opacity(0.5).ignoresSafeArea())
     }
+
 
     func machineStatusUpdate() {
         machines = [
@@ -228,3 +195,15 @@ struct quizView: View {
         ])
     }
 }
+
+extension View {
+    func quizButtonStyle(width: CGFloat = 180, height: CGFloat = 60) -> some View {
+        self.frame(width: width, height: height)
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .font(.title2.bold())
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .shadow(radius: 6)
+    }
+}
+
