@@ -12,6 +12,8 @@ import FirebaseFirestore
 
 
 struct quizViewV2: View {
+    @Environment(\.modelContext) var context
+    @Query var stud:[StudentData] = []
     @State var submitted = false
     @Binding var selectedMachine:String
     @State var questionNumber = 0
@@ -25,9 +27,16 @@ struct quizViewV2: View {
                 if answers[number] == questions[machine].correctAnswers[number]{
                     Text("\(number): correct")
                         .font(.title)
+                        .background(.green)
                 }else{
                     Text("\(number): incorrect")
                         .font(.title)
+                        .background(.green)
+                    Button("Blow up the app"){
+                        for element in stud{
+                            context.delete(element)
+                        }
+                    }
                 }
             }
             ForEach(0...10, id:\.self){ number in
