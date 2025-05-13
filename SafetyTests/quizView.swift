@@ -4,7 +4,7 @@ import Firebase
 import FirebaseFirestore
 
 struct quizView: View {
-    @State private var selectedAnswers: [Int?] = Array(repeating: nil, count: 5)
+    @State private var selectedAnswers: [Int?] = Array(repeating: nil, count: 14)
     @State private var currentQuestionIndex: Int = 0
     @State private var showResults: Bool = false
     @State private var quizSubmitted: Bool = false
