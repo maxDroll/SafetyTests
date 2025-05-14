@@ -4,7 +4,7 @@ import Firebase
 import FirebaseFirestore
 
 struct quizView: View {
-    @State private var selectedAnswers: [Int?] = Array(repeating: nil, count: 14)
+    @State private var selectedAnswers: [Int?] = Array(repeating: nil, count: 12)
     @State private var currentQuestionIndex: Int = 0
     @State private var showResults: Bool = false
     @State private var quizSubmitted: Bool = false
@@ -15,10 +15,48 @@ struct quizView: View {
     @Binding var selectedMachine: String
 
     let quizzes: [String: [(String, [String], Int)]] = [
-        "Mill": [("1", ["a", "b", "correct", "d"], 2), ("2", ["a", "correct", "c", "d"], 1), ("3", ["a", "b", "c", "correct"], 3), ("4", ["correct", "b", "c", "d"], 0), ("5", ["correct", "b", "c", "d"], 0)],
-        "Angle Grinder": [("1", ["correct", "b", "c", "d"], 0), ("2", ["a", "b", "c", "correct"], 3), ("3", ["a", "b", "c", "correct"], 3), ("4", ["a", "correct", "c", "d"], 1), ("5", ["correct", "b", "c", "d"], 0)],
-        "Lathe": [("1", ["correct", "b", "b", "d"], 0), ("2", ["a", "b", "correct", "d"], 2), ("3", ["a", "b", "correct", "d"], 2), ("4", ["a", "correct", "c", "d"], 1), ("5", ["a", "b", "correct", "d"], 2)],
-        "Welder": [("1", ["a", "b", "correct", "d"], 2), ("2", ["a", "b", "correct", "d"], 2), ("3", ["a", "correct", "c", "d"], 1), ("4", ["correct", "b", "c", "d"], 0), ("5", ["a", "b", "correct", "d"], 2)]
+        "Mill": [
+            ("When operating the vertical mill, you should always wear _________.", ["Long Pants", "Safety Glasses", "Gloves", "N/A"], 1),
+            ("Never allow _______ or _________ near an operating milling machine.", ["Necklaces or hair", "Coolant or oil", "Cutting tools or drills", "N/A"], 0),
+            ("Metal chips should always be cleared off the machine using _______.", ["A Brush", "Air Pressure", "Latex Gloves", "No Gloves"], 0),
+            ("Always remove and return drawbar wrench after changing tools.", ["True", "False", "N/A", "N/A"], 0),
+            ("Firmly tighten the stock in the _________ before milling.", ["Quill", "Table", "Milling Vise", "Draw Bar"], 2),
+            ("Keep hands at least _________ away from a revolving cutting tool.", ["3 inches", "6 inches", "12 inches", "N/A"], 2),
+            ("The tool holding device for endmills is called a _________.", ["Drill Chuck", "Quill", "Draw Bar", "R8 Collet"], 3),
+            ("You can safely use an endmill in a Drill Chuck.", ["True", "False", "N/A", "N/A"], 1),
+            ("Do not move the operating levers without knowing what they control.", ["True", "False", "N/A", "N/A"], 0),
+            ("Always be sure the cutting tool is spinning in the ___________ direction.", ["Counter Clockwise", "Clockwise", "N/A", "N/A"], 1),
+            ("Avoid excessively heavy cuts as it may cause cutter breakage.", ["True", "False", "N/A", "N/A"], 0),
+            ("Always measure your part when the machine is ____________.", ["ON", "IDLE/Neutral", "OFF", "N/A"], 2)
+        ],
+        "Lathe": [
+            ("When operating the CNC Lathe, always wear _________.", ["Long Pants", "Safety Glasses", "Gloves", "N/A"], 1),
+            ("Never allow _______ or _________ near a lathe.", ["Necklaces or hair", "Coolant or oil", "Cutting tools or drills", "N/A"], 0),
+            ("Never put your hand or arm inside the parts catcher chute.", ["True", "False", "N/A", "N/A"], 0),
+            ("Clear metal chips using _______ and proper gloves.", ["A Brush", "Air Pressure", "Latex Gloves", "No Gloves"], 0),
+            ("Always remove and return check tightening key after loading materials.", ["True", "False", "N/A", "N/A"], 0),
+            ("Tighten the stock in the _________ before turning.", ["Quill", "Table", "Center Chuck", "Draw Bar"], 2),
+            ("Keep hands at least _________ from revolving tools.", ["3 inches", "6 inches", "12 inches", "N/A"], 2),
+            ("Make sure that ________ jaws are holding the stock.", ["1", "2", "3", "All"], 3),
+            ("Only operate with doors closed and interlocks functional.", ["True", "False", "N/A", "N/A"], 0),
+            ("Do not move operating levers without understanding them.", ["True", "False", "N/A", "N/A"], 0),
+            ("Ensure cutting tool is properly seated in the tool holder.", ["True", "False", "N/A", "N/A"], 0),
+            ("Only measure part or finish when machine is ____________.", ["ON", "IDLE/Neutral", "OFF", "N/A"], 2)
+        ],
+        "Welder": [
+            ("When welding, always wear _________.", ["Long Sleeves", "Welding Helmet", "Gloves", "All of the above"], 3),
+            ("Never allow _______ or _________ near the welding machine.", ["Necklaces or hair", "Welding wire", "Shielding gas", "N/A"], 0),
+            ("Use effective ventilation whenever possible.", ["True", "False", "N/A", "N/A"], 0),
+            ("Flammable products should NOT be stored near work areas.", ["True", "False", "N/A", "N/A"], 0),
+            ("Do not change weld settings unless you understand them.", ["True", "False", "N/A", "N/A"], 0),
+            ("UV exposure may damage the ________ and ________.", ["Glass and wood", "Eyes and skin", "Welding machine and material", "N/A"], 1),
+            ("Check auto-darkening mask ________.", ["Every time you use it", "Once a week", "Once a year", "Never"], 0),
+            ("Wear clothing made from wool or cotton when welding.", ["True", "False", "N/A", "N/A"], 0),
+            ("Make sure an appropriate fire extinguisher is nearby.", ["Water", "Wood", "Fire", "Situation"], 2),
+            ("Protect your face from ________ using a welder's helmet.", ["Water splashing", "UV radiation", "Exhaust fumes", "N/A"], 1),
+            ("It is okay to weld without full PPE.", ["True", "False", "N/A", "N/A"], 1),
+            ("Shielding gas tanks must be firmly secured.", ["True", "False", "N/A", "N/A"], 0)
+        ]
     ]
 
     var questions: [(String, [String], Int)] {
