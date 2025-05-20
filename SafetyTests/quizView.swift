@@ -16,32 +16,32 @@ struct quizView: View {
 
     let quizzes: [String: [(String, [String], Int)]] = [
         "Mill": [
-            ("When operating the vertical mill, you should always wear _________.", ["Long Pants", "Safety Glasses", "Gloves", "N/A"], 1),
+            ("When operating the vertical mill or any machine, you should always wear _________. Even when the machine is in the OFF state.", ["Long Pants", "Safety Glasses", "Gloves", "N/A"], 1),
             ("Never allow _______ or _________ near an operating milling machine.", ["Necklaces or hair", "Coolant or oil", "Cutting tools or drills", "N/A"], 0),
             ("Metal chips should always be cleared off the machine using _______.", ["A Brush", "Air Pressure", "Latex Gloves", "No Gloves"], 0),
             ("Always remove and return drawbar wrench after changing tools.", ["True", "False", "N/A", "N/A"], 0),
-            ("Firmly tighten the stock in the _________ before milling.", ["Quill", "Table", "Milling Vise", "Draw Bar"], 2),
-            ("Keep hands at least _________ away from a revolving cutting tool.", ["3 inches", "6 inches", "12 inches", "N/A"], 2),
-            ("The tool holding device for endmills is called a _________.", ["Drill Chuck", "Quill", "Draw Bar", "R8 Collet"], 3),
-            ("You can safely use an endmill in a Drill Chuck.", ["True", "False", "N/A", "N/A"], 1),
-            ("Do not move the operating levers without knowing what they control.", ["True", "False", "N/A", "N/A"], 0),
-            ("Always be sure the cutting tool is spinning in the ___________ direction.", ["Counter Clockwise", "Clockwise", "N/A", "N/A"], 1),
-            ("Avoid excessively heavy cuts as it may cause cutter breakage.", ["True", "False", "N/A", "N/A"], 0),
-            ("Always measure your part when the machine is ____________.", ["ON", "IDLE/Neutral", "OFF", "N/A"], 2)
+            ("Make sure you firmly tighten the stock in the _________ before milling.", ["Quill", "Table", "Milling Vise", "Draw Bar"], 2),
+            ("Never reach over or near a revolving cutting tool. Keeps hands at least _________ away from revolving cutting tool.", ["3 inches", "6 inches", "12 inches", "N/A"], 2),
+            ("The tool holding device that safely & evenly holds endmills is called a _________.", ["Drill Chuck", "Quill", "Draw Bar", "R8 Collet"], 3),
+            ("You can safely use an endmill in a Drill Chuck", ["True", "False", "N/A", "N/A"], 1),
+            ("Do not move the operating levers without knowing what they control and what action is going to take place.", ["True", "False", "N/A", "N/A"], 0),
+            ("Always be sure the cutting tool is spinning in the ___________ direction", ["Counter Clockwise", "Clockwise", "N/A", "N/A"], 1),
+            ("Do not take an excessively heavy cut or feed as it can cause the cutter to break. The flying pieces could cause serious injury.", ["True", "False", "N/A", "N/A"], 0),
+            ("Always measure your part or check your cut finish when the machine is ________________.", ["ON", "IDLE/Neutral", "OFF", "N/A"], 2)
         ],
         "Lathe": [
-            ("When operating the CNC Lathe, always wear _________.", ["Long Pants", "Safety Glasses", "Gloves", "N/A"], 1),
-            ("Never allow _______ or _________ near a lathe.", ["Necklaces or hair", "Coolant or oil", "Cutting tools or drills", "N/A"], 0),
+            ("When operating the CNC Lathe or any machine, you should always wear _________. Even when the machine is in the OFF state.", ["Long Pants", "Safety Glasses", "Gloves", "N/A"], 1),
+            ("Never allow _______ or _________ near an operating milling machine.", ["Necklaces or hair", "Coolant or oil", "Cutting tools or drills", "N/A"], 0),
             ("Never put your hand or arm inside the parts catcher chute.", ["True", "False", "N/A", "N/A"], 0),
-            ("Clear metal chips using _______ and proper gloves.", ["A Brush", "Air Pressure", "Latex Gloves", "No Gloves"], 0),
+            ("Metal chips should always be cleared off the machine using _______ and appropriate gloves to remove processed material and to clean the machine.", ["A Brush", "Air Pressure", "Latex Gloves", "No Gloves"], 0),
             ("Always remove and return check tightening key after loading materials.", ["True", "False", "N/A", "N/A"], 0),
-            ("Tighten the stock in the _________ before turning.", ["Quill", "Table", "Center Chuck", "Draw Bar"], 2),
-            ("Keep hands at least _________ from revolving tools.", ["3 inches", "6 inches", "12 inches", "N/A"], 2),
-            ("Make sure that ________ jaws are holding the stock.", ["1", "2", "3", "All"], 3),
-            ("Only operate with doors closed and interlocks functional.", ["True", "False", "N/A", "N/A"], 0),
-            ("Do not move operating levers without understanding them.", ["True", "False", "N/A", "N/A"], 0),
-            ("Ensure cutting tool is properly seated in the tool holder.", ["True", "False", "N/A", "N/A"], 0),
-            ("Only measure part or finish when machine is ____________.", ["ON", "IDLE/Neutral", "OFF", "N/A"], 2)
+            ("Make sure you firmly tighten the stock in the _________ before milling.", ["Quill", "Table", "Center Chuck", "Draw Bar"], 2),
+            ("Never reach over or near a revolving cutting tool. Keeps hands at least _________ away from revolving cutting tool.", ["3 inches", "6 inches", "12 inches", "N/A"], 2),
+            ("When loading stock, make sure that ________ jaws are holding the stock to avoid the stock coming loose", ["1", "2", "3", "All"], 3),
+            ("Do not operate the machine unless the doors are closed and the door interlocks are functioning correctly.", ["True", "False", "N/A", "N/A"], 0),
+            ("Do not move the operating levers, push buttons or make adjustment without knowing what they control and what action is going to take place.", ["True", "False", "N/A", "N/A"], 0),
+            ("Always be sure the cutting tool is properly seated into the tool holder.", ["True", "False", "N/A", "N/A"], 0),
+            ("Always measure your part or check your cut finish when the machine is", ["ON", "IDLE/Neutral", "OFF", "N/A"], 2)
         ],
         "Welder": [
             ("When operating the welder, you should always wear _________. Even when the machine is in the OFF state.", ["Long Sleeves", "Welding Helmet", "Gloves", "All of the above"], 3),
