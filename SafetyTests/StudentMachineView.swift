@@ -23,6 +23,7 @@ struct StudentMachineView: View {
     @Environment(\.modelContext) var context
     @Query var stud:[StudentData] = []
     @FirestoreQuery(collectionPath: "Students") var students:[Student]
+    let numberOfQuestions:[Int] = [12,12,12,0]
     var body: some View {
         if let screenSize = UIScreen.main.bounds as CGRect? {
             VStack{

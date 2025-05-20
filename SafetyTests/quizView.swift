@@ -4,7 +4,7 @@ import Firebase
 import FirebaseFirestore
 
 struct quizView: View {
-    @State private var selectedAnswers: [Int?] = Array(repeating: nil, count: 12)
+    @State private var selectedAnswers: [Int] = Array(repeating: -1, count: 14)
     @State private var currentQuestionIndex: Int = 0
     @State private var showResults: Bool = false
     @State private var quizSubmitted: Bool = false
@@ -44,18 +44,20 @@ struct quizView: View {
             ("Only measure part or finish when machine is ____________.", ["ON", "IDLE/Neutral", "OFF", "N/A"], 2)
         ],
         "Welder": [
-            ("When welding, always wear _________.", ["Long Sleeves", "Welding Helmet", "Gloves", "All of the above"], 3),
-            ("Never allow _______ or _________ near the welding machine.", ["Necklaces or hair", "Welding wire", "Shielding gas", "N/A"], 0),
+            ("When operating the welder, you should always wear _________. Even when the machine is in the OFF state.", ["Long Sleeves", "Welding Helmet", "Gloves", "All of the above"], 3),
+            ("Never allow _______ or _________ near an operating welding machine.", ["Necklaces or hair", "Welding wire", "Shielding gas", "N/A"], 0),
             ("Use effective ventilation whenever possible.", ["True", "False", "N/A", "N/A"], 0),
-            ("Flammable products should NOT be stored near work areas.", ["True", "False", "N/A", "N/A"], 0),
-            ("Do not change weld settings unless you understand them.", ["True", "False", "N/A", "N/A"], 0),
-            ("UV exposure may damage the ________ and ________.", ["Glass and wood", "Eyes and skin", "Welding machine and material", "N/A"], 1),
-            ("Check auto-darkening mask ________.", ["Every time you use it", "Once a week", "Once a year", "Never"], 0),
-            ("Wear clothing made from wool or cotton when welding.", ["True", "False", "N/A", "N/A"], 0),
-            ("Make sure an appropriate fire extinguisher is nearby.", ["Water", "Wood", "Fire", "Situation"], 2),
-            ("Protect your face from ________ using a welder's helmet.", ["Water splashing", "UV radiation", "Exhaust fumes", "N/A"], 1),
-            ("It is okay to weld without full PPE.", ["True", "False", "N/A", "N/A"], 1),
-            ("Shielding gas tanks must be firmly secured.", ["True", "False", "N/A", "N/A"], 0)
+            ("Be sure that flammable products are stored near the work areas.", ["True", "False", "N/A", "N/A"], 1),
+            ("Do not change the weld settings without knowing what they control and what action is going to take place.", ["True", "False", "N/A", "N/A"], 0),
+            ("The exposure to UV light may result in damage to the ________ and _________.", ["Glass and wood", "Eyes and skin", "Welding machine and material", "N/A"], 1),
+            ("Check to make sure an auto-darkening welding mask is operational ___________", ["Every time you use it", "Once a week", "Once a year", "Never"], 0),
+            ("Wear clothing made from heavyweight, tightly woven, 100% wool or cotton (welding jackets) to protect from UV radiation, hot metal, sparks and open flames.", ["True", "False", "N/A", "N/A"], 0),
+            ("Make sure that there is an appropriate _______ extinguisher or fire watch personnel close by, in case there is a fire.", ["Water", "Wood", "Fire", "Situation"], 2),
+            ("Protect your face from _______  by wearing a tight-fitting, opaque welder's helmet.", ["Water splashing", "UV radiation", "Exhaust fumes", "N/A"], 1),
+            ("It is ok to operate a welder with out proper PPE such as a welding mask, gloves, long sleeves, pants, closed toe shoes, etc.", ["True", "False", "N/A", "N/A"], 1),
+            ("Shielding gas tanks need to be firmly secured to the welding cart.", ["True", "False", "N/A", "N/A"], 0),
+            ("If the machine has a malfunction, such as stuck welding wire, turn the machine off, close the gas valve and get your instructor.", ["True","False","N/A","N/A"],0),
+            ("It is ok to make a quick tack weld without any Personal Protective Equipment such as a welding mask, gloves, long selves, etc.",["True","False","N/A","N/A"],1)
         ]
     ]
 
@@ -64,10 +66,17 @@ struct quizView: View {
     }
 
     func calculateScore() -> Int {
-        selectedAnswers.enumerated().reduce(0) { result, item in
-            let (index, answer) = item
-            return result + ((answer == questions[index].2) ? 1 : 0)
+        var score = 0
+        for index in 0..<questions.count {
+            if selectedAnswers[index] == questions[index].2 {
+                score += 1
+            }
         }
+        return score
+//        selectedAnswers.enumerated().reduce(0) { result, item in
+//            let (index, answer) = item
+//            return result + ((answer == questions[index].2) ? 1 : 0)
+//        }
     }
 
     var body: some View {
@@ -178,7 +187,7 @@ struct quizView: View {
                                     let correctIndex = questions[index].2
 
                                     HStack {
-                                        Text("Q\(index + 1):")
+                                        Text("Q\(index + 1): " + questions[index].0)
                                         Spacer()
                                         if selectedIndex == correctIndex {
                                             Label("Correct", systemImage: "checkmark.circle")
