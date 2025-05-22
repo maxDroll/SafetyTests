@@ -25,11 +25,11 @@ struct VideoView: View {
         case "Lathe": YoutubeVideo(videoID: latheVideos[videoNumber])
         default: YoutubeVideo(videoID: welderVideos[videoNumber])
         }
-        HStack{
+        HStack(spacing: 200){
             Button {
                 videoNumber -= 1
             } label: {
-                Text("Back")
+                Text("Previous Video")
             }
             .disabled(videoNumber == 0)
             Button(action: {
@@ -62,7 +62,7 @@ struct VideoView: View {
             Button {
                 videoNumber += 1
             } label: {
-                Text("Next")
+                Text("Next Video")
             }
             .disabled(videoNumber == maxVideoNumber)
         }

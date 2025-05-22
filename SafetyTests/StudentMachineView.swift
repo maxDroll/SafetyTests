@@ -127,6 +127,7 @@ struct StudentMachineView: View {
                                     .font(.title)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
+                            .disabled(selectedMachine == "Angle Grinder")
                         }
                         VStack{
                             ForEach(machines, id:\.self) { machine in
