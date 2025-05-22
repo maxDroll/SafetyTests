@@ -16,7 +16,7 @@ struct MachineSelectionView: View {
     @State private var selectedMachine: String = ""
     @FirestoreQuery(collectionPath: "Students") var students:[Student]
     @State var student: Student = Student(AngleGrinderTest: -1, AngleGrinderVideo: false, Class: "Till", LatheTest: -1, LatheVideo: false, MillTest: -1, MillVideo: false, WelderTest: -1, WelderVideo: false, name: "Bill", Teacher: false, StudentID: "somethin")
-    
+    @State var maxVideos: Int = 0
     var body: some View {
         NavigationStack {
             if let screenSize = UIScreen.main.bounds as CGRect? {
@@ -31,6 +31,12 @@ struct MachineSelectionView: View {
                                     if name == StudentTemp.name && Class == StudentTemp.Class{
                                         student = StudentTemp
                                     }
+                                }
+                                switch machine{
+                                case "Mill": maxVideos = 1
+                                case "Angle Grinder": maxVideos = 2
+                                case "Lathe": maxVideos = 7
+                                default: maxVideos = 6
                                 }
                             },label:  {
                                 ZStack{
@@ -55,7 +61,7 @@ struct MachineSelectionView: View {
                     Rectangle()
                         .frame(width: 3, height: 9000)
                         .offset(x: -57)
-                    StudentMachineView(selectedMachine: $selectedMachine)
+                    StudentMachineView(selectedMachine: $selectedMachine, maxVideos: maxVideos)
                 }
                 .frame(width: (screenSize.width * (5 / 12)) + 40, height: 795)
                 
