@@ -24,7 +24,6 @@ struct StudentMachineView: View {
     @Query var stud:[StudentData] = []
     @FirestoreQuery(collectionPath: "Students") var students:[Student]
     let numberOfQuestions:[Int] = [12,12,12,0]
-    @State var maxVideos: Int
     var body: some View {
         if let screenSize = UIScreen.main.bounds as CGRect? {
             VStack{
@@ -107,7 +106,7 @@ struct StudentMachineView: View {
                     HStack{
                         VStack{
                             NavigationLink {
-                                VideoView(selectedMachine: $selectedMachine, maxVideoNumber: maxVideos)
+                                VideoView(selectedMachine: $selectedMachine)
                             } label: {
                                 Text("Go to Video View")
                                     .frame(width: 250, height: 100)
